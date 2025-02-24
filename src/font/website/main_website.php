@@ -1,10 +1,32 @@
+
+<style>
+        .bg-colorLandingTextLight {
+            background-color: #e0f7fa; /* Thay đổi màu sắc theo yêu cầu */
+        }
+        .text-colorLandingTextLight {
+            color: #555; /* Thay đổi màu sắc theo yêu cầu */
+        }
+        .bg-colorLandingAqua {
+            background-color: #00bcd4; /* Thay đổi màu sắc theo yêu cầu */
+        }
+        .bg-colorLandingBlue {
+            background-color: #2196f3; /* Thay đổi màu sắc theo yêu cầu */
+        }
+        .landing-hover-btn {
+            transition: background-color 0.3s ease;
+        }.highlight {
+            color: #38a169; /* Màu chữ nổi bật */
+            font-weight: bold; /* Bolding text */
+        }
+    </style>
+
 <div class="container">
     <main style="height: auto !important;">
         <section class="flex flex-col-reverse lg:flex-row items-start landing-section pt-8 md:pt-10 lg:pt-12 xl:pt-14 2xl:pt-16 pb-14 md:pb-16 lg:pb-20 xl:pb-22 2xl:pb-24">
             <div class="w-full lg:grow flex flex-col items-center ">
                 <h1 class="mb-8 text-center lg:text-left">
-                    <div class="font-bold text-colorLandingTextBold text-[36px] md:text-[44px] xl:text-[48px] 2xl:text-[54px] leading-tight">
-                        Học Tiếng Anh trực tuyến miễn phí
+                    <div class="font-bold highlight text-colorLandingTextBold text-[36px] md:text-[44px] xl:text-[48px] 2xl:text-[54px] leading-tight">
+                        LEARING ENGLISH ONLINE  
                     </div>
                    
                 </h1>

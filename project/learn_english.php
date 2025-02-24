@@ -34,17 +34,14 @@ a{
 
 <body>
     <?php
-    session_start();
+   
    
 
-     include('../src/font/website/header_website.php');
-     include('../src/font/website/main_website.php');
-     include('../src/font/website/level_website.php');
-     include('../src/font/website/introduce_website.php');
-     include('../src/font/website/feedback_website.php');
-
-     include('../src/font/website/footer_website.php');
-
+     include('../src/font/learn_english/header_english.php');
+     
+     include('../src/font/learn_english/start_beginner_english.php');
+     include('../src/font/learn_english/start_advanced_english.php');
+     include('../src/font/learn_english/start_intermediate_english.php');
 
     
     ?>
