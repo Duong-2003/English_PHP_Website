@@ -14,7 +14,7 @@
                     <p class="text-lg text-colorGrey5">am/is/are</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Chào hỏi" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fgreeting.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Chào hỏi" src="../public/images/icons/greeting.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <p class="text-lg text-colorGrey5">a/an, have/has</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Động vật" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fanimal.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Động vật" src="../public/images/icons/animal.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                     <p class="text-lg text-colorGrey5">Số nhiều</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Số đếm" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fnumber.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Số đếm" src="../public/images/icons/number.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <p class="text-lg text-colorGrey5">Sở hữu cách</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Gia đình" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffamily.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Gia đình" src="../public/images/icons/family.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                     <p class="text-lg text-colorGrey5">Miêu tả màu sắc</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Màu sắc" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fcolor.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Màu sắc" src="../public/images/icons/color.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <p class="text-lg text-colorGrey5">How many, there is/there are</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Đồ đạc" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffurniture.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Đồ đạc" src="../public/images/icons/furniture.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <p class="text-lg text-colorGrey5">am/is/are + not</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Nghề nghiệp" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fjob.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Nghề nghiệp" src="../public/images/icons/job.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
                     <p class="text-lg text-colorGrey5">Some/any</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Rau quả" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fvegetable_and_fruit.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Rau quả" src="../public/images/icons/vegetable_and_fruit.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                     <p class="text-lg text-colorGrey5">How much, a little/any</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Đồ ăn thức uống" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffood_and_drink.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Đồ ăn thức uống" src="../public/images/icons/food_and_drink_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                     <p class="text-lg text-colorGrey5">can/can not, may</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Các hoạt động" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Factivity.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Các hoạt động" src="../public/images/icons/activities_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>

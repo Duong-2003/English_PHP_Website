@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
+        body {
+            font-family: 'Arial', sans-serif; /* Đặt font chữ cho toàn bộ trang */
+        }
         .nav-link {
             color: #38a169; /* Màu chữ cho nav-link */
             transition: color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển màu và shadow */
@@ -17,9 +20,27 @@
         .nav-link:hover {
             color: #2f855a; /* Màu khi hover */
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Hiệu ứng shadow khi hover */
+            background-color: rgba(56, 161, 105, 0.1); /* Màu nền khi hover */
         }
         .language-button {
             margin-left: 20px; /* Khoảng cách giữa nút dịch và các phần khác */
+        }
+        .dropdown-menu {
+            display: none; /* Ẩn dropdown mặc định */
+            position: absolute; /* Để đặt vị trí */
+        }
+        .dropdown-item {
+            color: #38a169; /* Màu chữ cho dropdown-item */
+            transition: color 0.3s, background-color 0.3s; /* Hiệu ứng chuyển màu cho dropdown-item */
+            padding: 10px 15px; /* Thêm padding cho dropdown-item */
+            border-radius: 5px; /* Bo góc cho dropdown-item */
+        }
+        .dropdown-item:hover {
+            color: white; /* Màu chữ khi hover */
+            background-color: #38a169; /* Màu nền khi hover */
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block; /* Hiển thị dropdown khi hover */
         }
     </style>
 </head>
@@ -34,14 +55,35 @@
             </a>
 
             <nav class="d-none d-lg-flex gap-3">
-                <a href="http://localhost/Learning%20English/project/website.php" class="nav-link">Start</a>
-                <a href="#" class="nav-link">Profile</a>
-                <a href="#" class="nav-link">Setting</a>
-                <a href="#" class="nav-link">Document</a>
-                <a href="#" class="nav-link">Other</a>
-            </nav>
+            <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Khác">
+                    Start
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="otherDropdown">
+                        <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning Vocabulary</a>
+                        <a class="dropdown-item" href="../project/video_collection_page.php" title="Singing and Videos">Singing and Videos</a>
+                        <es class="dropdown-item" href="" title="Singing and Videos">Games Learning English</a>
+                        
+                        
+                    </div>
+                </div>
+                <!-- <a href="../project/learn_english.php" class="nav-link" title="Bắt đầu">Start</a> -->
 
-            
+                <a href="../project/profile_english.php" class="nav-link" title="Hồ sơ">Profile</a>
+                <a href="../project/setting_english.php" class="nav-link" title="Cài đặt">Setting</a>
+                <a href="../project/document_english.php" class="nav-link" title="Tài liệu">Document</a>
+                <!-- <a href="../project/video_collection_page.php" class="nav-link" title="Tài liệu">Singing and Videos</a> -->
+                <!-- Dropdown cho "Other" -->
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Khác">
+                        Other
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="otherDropdown">
+                        <a class="dropdown-item" href="../project/translate_english.php" title="Translate">Translate</a>
+                        <a class="dropdown-item" href="#" title="Saved Word">Saved Word</a>
+                    </div>
+                </div>
+            </nav>
 
             <div class="d-lg-none">
                 <button id="menu-btn" class="btn text-success">
@@ -52,12 +94,11 @@
                     <a class="dropdown-item" href="#">Profile</a>
                     <a class="dropdown-item" href="#">Setting</a>
                     <a class="dropdown-item" href="#">Other</a>
-                    
                 </div>
             </div>
 
             <!-- Phần Dịch Tiếng Anh -->
-            <button class="btn btn-outline-success language-button">Dịch Tiếng Anh</button>
+            <a href="../project/login.php"><button class="btn btn-outline-success language-button"> Login/Register</button></a>
         </div>
     </header>
 
@@ -67,5 +108,3 @@
 </body>
 
 </html>
-
-

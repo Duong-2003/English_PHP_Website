@@ -16,7 +16,7 @@
                     <p class="text-lg text-colorGrey5">Hỏi và trả lời ngày</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Tháng" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fgreeting.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Tháng" src="../public/images/icons/month_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                     <p class="text-lg text-colorGrey5">Hỏi và trả lời về thời tiết, Tương lai đơn</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Thời tiết" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fanimal.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Thời tiết" src="../public/images/icons/weather_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                     <p class="text-lg text-colorGrey5">should/should not, more, less</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Sức khỏe" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fnumber.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Sức khỏe" src="../public/images/icons/health_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                     <p class="text-lg text-colorGrey5">Hỏi về giá cả</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Quần áo" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffamily.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Quần áo" src="../public/images/icons/clothes_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
                     <p class="text-lg text-colorGrey5">like/love + Ving</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Sở thích" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fcolor.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Sở thích" src="../public/images/icons/hobby_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                     <p class="text-lg text-colorGrey5">Hiện tại tiếp diễn</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Việc nhà" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffurniture.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Việc nhà" src="../public/images/icons/housework_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
                     <p class="text-lg text-colorGrey5">Quá khứ 1</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Giáo dục" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fjob.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Giáo dục" src="../public/images/icons/education_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -100,7 +100,7 @@
                     <p class="text-lg text-colorGrey5">Quá khứ 2</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Du lịch" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fvegetable_and_fruit.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Du lịch" src="../public/images/icons/travelling_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
                     <p class="text-lg text-colorGrey5">Hiện tại hoàn thành</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Phim ảnh, âm nhạc" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffood_and_drink.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Phim ảnh, âm nhạc" src="../public/images/icons/entertainment_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
                     <p class="text-lg text-colorGrey5">Câu điều kiện 1</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Môi trường" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Factivity.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Môi trường" src="../public/images/icons/environment_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>

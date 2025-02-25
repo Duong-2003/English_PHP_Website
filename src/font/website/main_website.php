@@ -33,23 +33,23 @@
                 <div class="flex flex-col gap-6 2xl:gap-8 mb-12 w-full md:max-w-[650px] md:mx-auto lg:mx-0 lg:max-w-none lg:w-3/4">
                     <div class="flex items-start">
                         <div class="w-2.5 h-2.5 mt-1.5 shrink-0 rounded-full bg-colorLandingTextLight mr-4"></div>
-                        <div class="text-colorLandingTextLight">Học Tiếng Anh căn bản cho người mới bắt đầu hoặc nâng cao trình độ cho người mất gốc.</div>
+                        <div class="text-colorLandingTextLight">Learn basic English for beginners or advanced levels for those who have lost their roots.</div>
                     </div>
                     <div class="flex items-start">
                         <div class="w-2.5 h-2.5 mt-1.5 shrink-0 rounded-full bg-colorLandingTextLight mr-4"></div>
-                        <div class="text-colorLandingTextLight">Học Tiếng Anh cho các em học sinh, sinh viên, người đi làm.</div>
+                        <div class="text-colorLandingTextLight">Learn English for students, students, and working people.</div>
                     </div>
                     <div class="flex items-start">
                         <div class="w-2.5 h-2.5 mt-1.5 shrink-0 rounded-full bg-colorLandingTextLight mr-4"></div>
-                        <div class="text-colorLandingTextLight">Học Tiếng Anh giao tiếp, Tiếng Anh học thuật, học Tiếng Anh online mỗi ngày.</div>
+                        <div class="text-colorLandingTextLight">Learn English for communication, academic English, and learn English online every day.</div>
                     </div>
                     <div class="flex items-start">
                         <div class="w-2.5 h-2.5 mt-1.5 shrink-0 rounded-full bg-colorLandingTextLight mr-4"></div>
-                        <div class="text-colorLandingTextLight">Dễ dàng sử dụng, vừa học vừa chơi, đồng bộ trên mọi thiết bị, ...</div>
+                        <div class="text-colorLandingTextLight">Easy to use, learn while playing, sync on any device, ...</div>
                     </div>
                 </div>
                 <button class="landing-hover-btn font-semibold outline-none text-white bg-gradient-to-r from-green-400 to-green-700 hover:from-green-300 hover:to-green-600 rounded-lg w-full lg:w-auto h-12 px-6 text-sm transition duration-300">
-                    BẮT ĐẦU NGAY
+                VIEW DOCUMENT
                 </button>
             </div>
             <div class="shrink-0 mx-auto mb-8 lg:mb-0 lg:self-center relative w-80 h-80 md:w-[350px] md:h-[350px] lg:w-[375px] lg:h-[375px] 2xl:w-[450px] 2xl:h-[450px] flex justify-center">

@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif; /* Đặt font chữ cho toàn bộ trang */
+        }
         .nav-link {
             color: #38a169; /* Màu chữ cho nav-link */
             transition: color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển màu và shadow */
@@ -17,6 +20,27 @@
         .nav-link:hover {
             color: #2f855a; /* Màu khi hover */
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Hiệu ứng shadow khi hover */
+            background-color: rgba(56, 161, 105, 0.1); /* Màu nền khi hover */
+        }
+        .landing-hover-btn {
+            margin-left: 20px; /* Khoảng cách giữa nút và các phần khác */
+        }
+        .dropdown-menu {
+            display: none; /* Ẩn dropdown mặc định */
+            position: absolute; /* Để đặt vị trí */
+        }
+        .dropdown-item {
+            color: #38a169; /* Màu chữ cho dropdown-item */
+            transition: color 0.3s, background-color 0.3s; /* Hiệu ứng chuyển màu cho dropdown-item */
+            padding: 10px 15px; /* Thêm padding cho dropdown-item */
+            border-radius: 5px; /* Bo góc cho dropdown-item */
+        }
+        .dropdown-item:hover {
+            color: white; /* Màu chữ khi hover */
+            background-color: #38a169; /* Màu nền khi hover */
+        }
+        .dropdown:hover .dropdown-menu {
+            display: block; /* Hiển thị dropdown khi hover */
         }
     </style>
 </head>
@@ -32,16 +56,14 @@
 
             <nav class="d-none d-lg-flex gap-3">
                 <a href="http://localhost/Learning%20English/project/website.php" class="nav-link">HOME</a>
-                <a href="#" class="nav-link">DOCUMENT</a>
                 <a href="#" class="nav-link">ABOUT</a>
                 <a href="#" class="nav-link">BLOG</a>
                 <a href="#" class="nav-link">CONTACT</a>
-               
             </nav>
 
             <button class="landing-hover-btn font-semibold outline-none text-white bg-gradient-to-r from-green-400 to-green-700 hover:from-green-300 hover:to-green-600 rounded-lg w-full lg:w-auto h-12 px-6 text-sm transition duration-300">
-                   <a href="../project/learn_english.php" style=" text-decoration: none;list-style: none;color:white">BẮT ĐẦU NGAY</a> 
-                </button>
+                <a href="../project/learn_english.php" style="text-decoration: none; color: white;">START NOW</a>
+            </button>
 
             <!-- Menu cho thiết bị di động -->
             <div class="d-lg-none">
@@ -54,8 +76,8 @@
                     <a class="dropdown-item" href="#">Giới thiệu</a>
                     <a class="dropdown-item" href="#">Blog</a>
                     <button class="landing-hover-btn font-semibold outline-none text-white bg-gradient-to-r from-green-400 to-green-700 hover:from-green-300 hover:to-green-600 rounded-lg w-full lg:w-auto h-12 px-6 text-sm transition duration-300">
-                    BẮT ĐẦU NGAY
-                </button>
+                        <a href="../project/learn_english.php" style="text-decoration: none; color: white;">START NOW</a>
+                    </button>
                 </div>
             </div>
         </div>

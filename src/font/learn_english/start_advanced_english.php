@@ -14,7 +14,7 @@
                     <p class="text-lg text-colorGrey5">V + s/es, do/does + not</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Thói quen hàng ngày" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fdaily_routine.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Thói quen hàng ngày" src="../public/images/icons/daily_routine_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <p class="text-lg text-colorGrey5">Câu hỏi Yes/No, Câu hỏi Wh</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Quốc gia" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fnation.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Quốc gia" src="../public/images/icons/nation_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                     <p class="text-lg text-colorGrey5">So sánh hơn 1</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Ngoại hình" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fappearance.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Ngoại hình" src="../public/images/icons/appearance_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                     <p class="text-lg text-colorGrey5">So sánh hơn 2</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Cảm xúc, tính cách" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ffeeling_and_personality.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Cảm xúc, tính cách" src="../public/images/icons/feeling_and_personality_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@
                     <p class="text-lg text-colorGrey5">So sánh ngang bằng</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Thể thao" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fsport.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Thể thao" src="../public/images/icons/sport_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <p class="text-lg text-colorGrey5">Đại từ sở hữu, Giới từ chỉ nơi chốn</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Lớp học" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fclassroom.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Lớp học" src="../public/images/icons/classroom_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <p class="text-lg text-colorGrey5">Giới từ chỉ nơi chốn, Chỉ đường</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Nơi chốn" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fplace.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Nơi chốn" src="../public/images/icons/place_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
                     <p class="text-lg text-colorGrey5">Hỏi và trả lời về phương tiện</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Giao thông" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ftraffic.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Giao thông" src="../public/images/icons/traffic_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
                     <p class="text-lg text-colorGrey5">Hỏi và trả lời về thời gian</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Thời gian" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Ftime.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Thời gian" src="../public/images/icons/time_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                     <p class="text-lg text-colorGrey5">Giới từ chỉ thời gian, Trạng từ chỉ tần suất</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">
-                    <img alt="Ngày trong tuần" src="/_next/image?url=%2Fassets%2Fmedia%2Ftopic%2Fimage%2Fweekdays.png&amp;w=3840&amp;q=75" class="img-fluid" />
+                    <img alt="Ngày trong tuần" src="../public/images/icons/weekday_11zon.png" class="img-fluid" />
                 </div>
             </div>
         </div>
