@@ -61,7 +61,7 @@ $documentCount = $documentCountResult->fetch_assoc()['count'];
         </div>
     </div>
 
-    <a href="your_dashboard.php" class="btn btn-secondary mt-3">Trở Về</a>
+    <a href="#" class="btn btn-secondary mt-3">Trở Về</a>
 </div>
 </body>
 </html>

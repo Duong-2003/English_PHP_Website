@@ -35,7 +35,7 @@ a{
 <body>
     <?php
    
-   
+   session_start();
 
      include('../src/font/learn_english/header_english.php');
      

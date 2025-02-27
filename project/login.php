@@ -70,7 +70,6 @@
     </style>
 </head>
 <body>
-
 <?php 
 session_start(); // Bắt đầu session
 include('../src/font/learn_english/header_english.php');
@@ -128,12 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="row-input">
                 <label for="clogin_username" class="title-lgu">Tên đăng nhập:</label>
                 <input type="text" id="clogin_username" name="txtUsername" class="form-control" tabindex="1" required placeholder="">
-                <a href="https://www.tienganh123.com/register" class="link-rf" title="Tạo một tài khoản?">Tạo một tài khoản?</a>
+                <a href="" class="link-rf" title="Tạo một tài khoản?">Tạo một tài khoản?</a>
             </div>
             <div class="row-input">
                 <label for="clogin_password" class="title-lgp">Mật khẩu:</label>
                 <input type="password" id="clogin_password" name="txtPassword" class="form-control" tabindex="2" required placeholder="">
-                <a href="https://www.tienganh123.com/forgotpass" class="link-rf" title="Quên mật khẩu?">Quên mật khẩu?</a>
+                <a href="" class="link-rf" title="Quên mật khẩu?">Quên mật khẩu?</a>
             </div>
             <div class="row-input">
                 <input type="checkbox" id="clogin_repass" class="repass" alt="true" tabindex="3">

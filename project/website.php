@@ -34,7 +34,7 @@ a{
 
 <body>
     <?php
-    session_start();
+  
    
 
      include('../src/font/website/header_website.php');

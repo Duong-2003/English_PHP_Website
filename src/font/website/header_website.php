@@ -49,13 +49,13 @@
 
     <header class="w-100 border-bottom shadow-lg bg-white">
         <div class="container d-flex justify-content-between align-items-center py-2">
-            <a href="/" class="d-flex align-items-center">
+            <a href="../project/website.php" class="d-flex align-items-center">
                 <img src="<?= '../public/images/icons/dino.png' ?>" alt="Logo" class="h-12 mr-1">
                 <img src="<?= '../public/images/icons/dino_name.png' ?>" alt="Logo" class="h-12">
             </a>
 
             <nav class="d-none d-lg-flex gap-3">
-                <a href="http://localhost/Learning%20English/project/website.php" class="nav-link">HOME</a>
+                <a href="../project/website.php" class="nav-link">HOME</a>
                 <a href="#" class="nav-link">ABOUT</a>
                 <a href="#" class="nav-link">BLOG</a>
                 <a href="#" class="nav-link">CONTACT</a>
@@ -71,7 +71,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div id="mobile-menu" class="dropdown-menu position-absolute bg-white shadow-lg mt-2" style="display: none;">
-                    <a class="dropdown-item" href="http://localhost/Learning%20English/project/website.php">Trang chủ</a>
+                    <a class="dropdown-item" href="../project/website.php">Trang chủ</a>
                     <a class="dropdown-item" href="#">Download</a>
                     <a class="dropdown-item" href="#">Giới thiệu</a>
                     <a class="dropdown-item" href="#">Blog</a>
