@@ -10,13 +10,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<?php 
-include('../src/font/learn_english/header_english.php');
-?>
 
 
-    <style>
+<style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -70,16 +67,53 @@ include('../src/font/learn_english/header_english.php');
         .submit-lg:hover {
             background-color: #2980b9;
         }
-        .icon-gg {
-            width: 30px;
-            height: 30px;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg');
-            background-size: cover;
-        }
     </style>
 </head>
-
 <body>
+
+<?php 
+session_start(); // Bắt đầu session
+include('../src/font/learn_english/header_english.php');
+
+
+// Xử lý đăng nhập
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['txtUsername'];
+    $password = $_POST['txtPassword'];
+
+    // Kết nối đến cơ sở dữ liệu
+    include('../config/conn.php');
+
+    // Truy vấn để xác thực người dùng
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        // Kiểm tra mật khẩu
+        if (password_verify($password, $user['password'])) {
+            // Lưu thông tin người dùng vào session
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['user_role'] = $user['role']; // Lưu vai trò
+
+            // Chuyển hướng dựa trên vai trò
+            if ($user['role'] === 'admin' || $user['role'] === 'teacher') {
+               
+             
+                header("Location: ../../../project/learn_english.php"); // Trang học tiếng Anh
+            }
+            exit();
+        } else {
+            $error_message = "Mật khẩu không đúng.";
+        }
+    } else {
+        $error_message = "Tên đăng nhập không tồn tại.";
+    }
+}
+?>
 
 <div class="res_box">
     <div class="yellow_title_box">
@@ -87,33 +121,30 @@ include('../src/font/learn_english/header_english.php');
     </div>
     <div class="formLogin">
         <h3>Đăng nhập</h3>
-        <div class="row-input">
-            <label for="clogin_username" class="title-lgu">Tên đăng nhập:</label>
-            <input type="text" id="clogin_username" name="txtUsername" class="form-control" tabindex="1" placeholder="">
-            <a href="https://www.tienganh123.com/register" class="link-rf" title="Tạo một tài khoản?">Tạo một tài khoản?</a>
-        </div>
-        <div class="row-input">
-            <label for="clogin_password" class="title-lgp">Mật khẩu:</label>
-            <input type="password" id="clogin_password" name="txtPassword" class="form-control" tabindex="2" placeholder="">
-            <a href="https://www.tienganh123.com/forgotpass" class="link-rf" title="Quên mật khẩu?">Quên mật khẩu?</a>
-        </div>
-        <div class="row-input">
-            <input type="checkbox" id="clogin_repass" class="repass" alt="true" tabindex="3">
-            <label for="clogin_repass">Nhớ tên truy cập</label>
-        </div>
-        <div class="row-input">
-            <input type="button" id="clogin_submit" class="submit-lg" onclick="return clogin();" value="Đăng nhập">
-        </div>
+        <?php if (isset($error_message)): ?>
+            <div class="alert alert-danger"><?php echo $error_message; ?></div>
+        <?php endif; ?>
+        <form method="POST" action="">
+            <div class="row-input">
+                <label for="clogin_username" class="title-lgu">Tên đăng nhập:</label>
+                <input type="text" id="clogin_username" name="txtUsername" class="form-control" tabindex="1" required placeholder="">
+                <a href="https://www.tienganh123.com/register" class="link-rf" title="Tạo một tài khoản?">Tạo một tài khoản?</a>
+            </div>
+            <div class="row-input">
+                <label for="clogin_password" class="title-lgp">Mật khẩu:</label>
+                <input type="password" id="clogin_password" name="txtPassword" class="form-control" tabindex="2" required placeholder="">
+                <a href="https://www.tienganh123.com/forgotpass" class="link-rf" title="Quên mật khẩu?">Quên mật khẩu?</a>
+            </div>
+            <div class="row-input">
+                <input type="checkbox" id="clogin_repass" class="repass" alt="true" tabindex="3">
+                <label for="clogin_repass">Nhớ tên truy cập</label>
+            </div>
+            <div class="row-input">
+                <input type="submit" class="submit-lg" value="Đăng nhập">
+            </div>
+        </form>
     </div>
 </div>
-
-<script>
-    function clogin() {
-        // Thêm logic đăng nhập ở đây
-        alert("Đăng nhập thành công!");
-        return false; // Ngăn chặn hành động mặc định
-    }
-</script>
 
 </body>
 </html>

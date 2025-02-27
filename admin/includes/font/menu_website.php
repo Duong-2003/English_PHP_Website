@@ -1,3 +1,15 @@
+<?php
+session_start();
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'teacher') {
+    header("Location: admin_login.php"); // Chuyển hướng đến trang đăng nhập
+    exit;
+}
+
+// Lấy thông tin người dùng
+$username = $_SESSION['username'];
+$avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.png'; // Đường dẫn đến ảnh đại diện
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +25,7 @@
             display: flex;
             height: 100vh;
             margin: 0;
+            flex-direction: column;
         }
         .sidebar {
             min-width: 250px;
@@ -28,6 +41,18 @@
             padding: 20px;
             flex-grow: 1;
             text-align: center;
+        }
+        .top-bar {
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            width: calc(100% - 250px);
+            top: 0;
+            left: 250px;
+            z-index: 1000;
         }
         h2 {
             margin-bottom: 20px;
@@ -50,6 +75,17 @@
         }
         .table {
             margin-top: 20px;
+        }
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
         }
     </style>
 </head>
@@ -78,110 +114,102 @@
                 <i class="fas fa-file-alt"></i> Quản lý tài liệu
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" onclick="showContent('settings')">
-                <i class="fas fa-cog"></i> Cài đặt
-            </a>
-        </li>
     </ul>
 </div>
 
-<div class="content" id="content-area">
-    <h2 class="text-center">Chào mừng đến với trang quản lý admin!</h2>
-    <p>Vui lòng chọn một mục từ menu bên trái để bắt đầu.</p>
+<div class="top-bar">
+    <div class="user-info">
+        <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" class="avatar">
+        <span class="text-light"><?php echo htmlspecialchars($username); ?></span>
+        <a href="admin_logout.php" class="btn btn-danger btn-sm ms-3">Đăng xuất</a>
+    </div>
+</div>
+
+<div class="content" id="content-area" style="margin-top: 60px;">
+  <script>
+    $.ajax({
+                url: '../../admin/pages/form_home_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+  </script>
 </div>
 
 <script>
-    function showContent(section) {
-        const contentArea = document.getElementById('content-area');
-        let content = '';
+function showContent(section) {
+    const contentArea = document.getElementById('content-area');
+    const navLinks = document.querySelectorAll('.nav-link');
 
-        switch (section) {
-            case 'userManagement':
-                content = `
-                    <h2>Quản lý người dùng</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên</th>
-                                <th>Email</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>a@example.com</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Trần Thị B</td>
-                                <td>b@example.com</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-                break;
-            case 'videoManagement':
-                content = `
-                    <h2>Quản lý video</h2>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên Video</th>
-                                <th>Thời gian</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Video Học 1</td>
-                                <td>10:00</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Video Học 2</td>
-                                <td>20:00</td>
-                                <td>
-                                    <button class="btn btn-warning btn-sm">Chỉnh sửa</button>
-                                    <button class="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                `;
-                break;
-            case 'documentManagement':
-                content = '<h2>Quản lý tài liệu</h2><p>Thông tin tài liệu sẽ được hiển thị ở đây.</p>';
-                break;
-            case 'settings':
-                content = '<h2>Cài đặt</h2><p>Các tùy chọn cài đặt sẽ được hiển thị ở đây.</p>';
-                break;
-            case 'home': // Thêm trường hợp cho "Trang chủ"
-                content = '<h2>Chào mừng đến với trang quản lý admin!</h2><p>Vui lòng chọn một mục từ menu bên trái để bắt đầu.</p>';
-                break;
-            default:
-                content = '<h2>Chào mừng đến với trang quản lý admin!</h2><p>Vui lòng chọn một mục từ menu bên trái để bắt đầu.</p>';
-        }
+    // Đặt tất cả các liên kết về trạng thái không hoạt động
+    navLinks.forEach(link => link.classList.remove('active'));
 
-        contentArea.innerHTML = content;
+    // Đánh dấu liên kết hiện tại là hoạt động
+    const activeLink = Array.from(navLinks).find(link => link.textContent.includes(section));
+    if (activeLink) {
+        activeLink.classList.add('active');
     }
+
+    let content = '';
+    switch (section) {
+        case 'userManagement':
+            $.ajax({
+                url: '../../admin/pages/form_user_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+        case 'videoManagement':
+            $.ajax({
+                url: '../../admin/pages/form_videos_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+        case 'documentManagement':
+            $.ajax({
+                url: '../../admin/pages/form_document_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+        case 'home':
+        default:
+        $.ajax({
+                url: '../../admin/pages/form_home_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+    }
+}
+$(document).ready(function() {
+    showContent('home');
+});
 </script>
 
 </body>

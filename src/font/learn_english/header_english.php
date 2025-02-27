@@ -61,7 +61,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="otherDropdown">
                         <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning Vocabulary</a>
-                        <a class="dropdown-item" href="../project/video_collection_page.php" title="Singing and Videos">Singing and Videos</a>
+                        <a class="dropdown-item" href="../project/video_collection_page.php" title="Singing and Videos">Singing With Videos</a>
                         <es class="dropdown-item" href="" title="Singing and Videos">Games Learning English</a>
                         
                         

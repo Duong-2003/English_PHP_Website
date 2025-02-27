@@ -34,7 +34,7 @@ a{
 
 <body>
     <?php
-    session_start();
+  
    
 
      include('../../admin/includes/font/menu_website.php');
