@@ -9,38 +9,63 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         body {
-            font-family: 'Arial', sans-serif; /* Đặt font chữ cho toàn bộ trang */
+            font-family: 'Arial', sans-serif;
+            /* Đặt font chữ cho toàn bộ trang */
         }
+
         .nav-link {
-            color: #38a169; /* Màu chữ cho nav-link */
-            transition: color 0.3s, box-shadow 0.3s; /* Hiệu ứng chuyển màu và shadow */
-            padding: 10px 15px; /* Thêm padding cho nav-link */
-            border-radius: 5px; /* Bo góc cho nav-link */
+            color: #38a169;
+            /* Màu chữ cho nav-link */
+            transition: color 0.3s, box-shadow 0.3s;
+            /* Hiệu ứng chuyển màu và shadow */
+            padding: 10px 15px;
+            /* Thêm padding cho nav-link */
+            border-radius: 5px;
+            /* Bo góc cho nav-link */
         }
+
         .nav-link:hover {
-            color: #2f855a; /* Màu khi hover */
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Hiệu ứng shadow khi hover */
-            background-color: rgba(56, 161, 105, 0.1); /* Màu nền khi hover */
+            color: #2f855a;
+            /* Màu khi hover */
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            /* Hiệu ứng shadow khi hover */
+            background-color: rgba(56, 161, 105, 0.1);
+            /* Màu nền khi hover */
         }
+
         .language-button {
-            margin-left: 20px; /* Khoảng cách giữa nút dịch và các phần khác */
+            margin-left: 20px;
+            /* Khoảng cách giữa nút dịch và các phần khác */
         }
+
         .dropdown-menu {
-            display: none; /* Ẩn dropdown mặc định */
-            position: absolute; /* Để đặt vị trí */
+            display: none;
+            /* Ẩn dropdown mặc định */
+            position: absolute;
+            /* Để đặt vị trí */
         }
+
         .dropdown-item {
-            color: #38a169; /* Màu chữ cho dropdown-item */
-            transition: color 0.3s, background-color 0.3s; /* Hiệu ứng chuyển màu cho dropdown-item */
-            padding: 10px 15px; /* Thêm padding cho dropdown-item */
-            border-radius: 5px; /* Bo góc cho dropdown-item */
+            color: #38a169;
+            /* Màu chữ cho dropdown-item */
+            transition: color 0.3s, background-color 0.3s;
+            /* Hiệu ứng chuyển màu cho dropdown-item */
+            padding: 10px 15px;
+            /* Thêm padding cho dropdown-item */
+            border-radius: 5px;
+            /* Bo góc cho dropdown-item */
         }
+
         .dropdown-item:hover {
-            color: white; /* Màu chữ khi hover */
-            background-color: #38a169; /* Màu nền khi hover */
+            color: white;
+            /* Màu chữ khi hover */
+            background-color: #38a169;
+            /* Màu nền khi hover */
         }
+
         .dropdown:hover .dropdown-menu {
-            display: block; /* Hiển thị dropdown khi hover */
+            display: block;
+            /* Hiển thị dropdown khi hover */
         }
     </style>
 </head>
@@ -56,12 +81,13 @@ if (isset($_SESSION['username'])) {
     $stmt->bind_param("s", $loggedInUsername);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result && $result->num_rows > 0) {
         $user = $result->fetch_assoc(); // Lấy dữ liệu người dùng
     }
 }
 ?>
+
 <body>
 
     <header class="w-100 border-bottom shadow-lg bg-white">
@@ -72,60 +98,77 @@ if (isset($_SESSION['username'])) {
             </a>
 
             <nav class="d-none d-lg-flex gap-3">
-            <div class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Khác">
-                    Start
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true"
+                        aria-expanded="false" title="Khác">
+                        Start
                     </a>
                     <div class="dropdown-menu" aria-labelledby="otherDropdown">
-                        <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning Vocabulary</a>
-                        <a class="dropdown-item" href="../project/video_collection_page.php" title="Singing and Videos">Singing With Videos</a>
-                        <es class="dropdown-item" href="" title="Singing and Videos">Games Learning English</a>
-                        
-                        
+                        <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning
+                            Vocabulary</a>
+                            <es class="dropdown-item" href="" title="Singing and Videos">Games Learning English</a>
+
+
+
                     </div>
                 </div>
                 <!-- <a href="../project/learn_english.php" class="nav-link" title="Bắt đầu">Start</a> -->
 
-                <a href="../project/profile_english.php" class="nav-link" title="Hồ sơ">Profile</a>
-                <a class="dropdown-item" href="../project/translate_english.php" title="Translate">Translate</a>
-                        <a class="dropdown-item" href="#" title="Saved Word">Saved Word</a>
+
                 <a href="../project/document_english.php" class="nav-link" title="Tài liệu">Document</a>
+                <div class="dropdown">
+                    <a class="nav-link dropdown-toggle" id="otherDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" title="Khác">
+                        Other
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="otherDropdown">
+                        <li><a class="dropdown-item" href="../project/translate_english.php"
+                                title="Translate">Translate</a></li>
+                        <li><a class="dropdown-item" href="#" title="Saved Word">Saved Word</a></li>
+                        <!-- Thêm các mục khác nếu cần -->
+                    </ul>
+                </div>
                
+                <a class="dropdown-item" href="../project/video_collection_page.php"
+                            title="Singing and Videos">Singing With Videos</a>
             </nav>
 
             <div class="d-lg-none">
                 <button id="menu-btn" class="btn text-success">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div id="mobile-menu" class="dropdown-menu position-absolute bg-white shadow-lg mt-2" style="display: none;">
+                <div id="mobile-menu" class="dropdown-menu position-absolute bg-white shadow-lg mt-2"
+                    style="display: none;">
                     <a class="dropdown-item" href="http://localhost/Learning%20English/project/website.php">Start</a>
-                    <a class="dropdown-item" href="#">Profile</a>
+
                     <a class="dropdown-item" href="#">Setting</a>
                     <a class="dropdown-item" href="#">Other</a>
                 </div>
             </div>
 
             <?php if (isset($user)): ?>
-                    <!-- Nếu người dùng đã đăng nhập, hiển thị icon người dùng -->
-                    <a href="#" class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <img src="../public/images/icons/ic_default_ava_male.png" alt="User Avatar" class="h-10 ">
-    <?php echo htmlspecialchars($user['username']); ?>
-</a>
-<!-- Dropdown menu -->
-<ul class="dropdown-menu" aria-labelledby="userDropdown">
-    <li><a class="dropdown-item" href="../project/profile_english.php">Profile</a></li>
-    <li><a class="dropdown-item" href="../project/setting_english.php">Settings</a></li>
-    <li><a class="dropdown-item" href="../project/logout.php">Logout</a></li>
-</ul>
+                <!-- Nếu người dùng đã đăng nhập, hiển thị icon người dùng -->
+                <a href="#" class="nav-link dropdown-toggle" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <img src="../public/images/icons/ic_default_ava_male.png" alt="User Avatar" class="h-10 ">
+                    <?php echo htmlspecialchars($user['username']); ?>
+                </a>
+                <!-- Dropdown menu -->
+                <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="../project/profile_english.php">Profile</a></li>
+                    <li><a class="dropdown-item" href="../project/setting_english.php">Settings</a></li>
+                    <li><a class="dropdown-item" href="../project/logout.php">Logout</a></li>
+                </ul>
 
-                <?php else: ?>
-                    <!-- Nếu người dùng chưa đăng nhập, hiển thị các nút đăng nhập và đăng ký -->
-                    <a href="../project/login.php">
-                        <button class="btn btn-outline-success language-button">
-                        <a href="../project/login.php"><button class="btn btn-outline-success language-button"> Login/Register</button></a>
-                        </button>
-                    </a>
-                <?php endif; ?>
+            <?php else: ?>
+                <!-- Nếu người dùng chưa đăng nhập, hiển thị các nút đăng nhập và đăng ký -->
+                <a href="../project/login.php">
+
+                    <a href="../project/login.php"><button class="btn btn-outline-success language-button">
+                            Login/Register</button></a>
+
+                </a>
+            <?php endif; ?>
         </div>
     </header>
 

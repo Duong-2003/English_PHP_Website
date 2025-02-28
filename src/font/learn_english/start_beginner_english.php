@@ -10,7 +10,7 @@
         <div class="col-md-6 mb-4">
             <div class="px-4 py-3 h-24 border border-colorGrey3/70 shadow-sm hover:shadow-md hover:scale-105 rounded-lg d-flex align-items-center gap-2 cursor-pointer transition duration-100 ease-out">
                 <div class="flex-grow-1">
-                    <h3 class="font-medium text-xl">Chào hỏi</h3>
+                   <a href="../project/learn_vocabulary.php"> <h3 class="font-medium text-xl">Chào hỏi</h3></a>
                     <p class="text-lg text-colorGrey5">am/is/are</p>
                 </div>
                 <div class="h-18 w-18 aspect-square shrink-0 relative">

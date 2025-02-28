@@ -51,7 +51,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             position: fixed;
             width: calc(100% - 250px);
             top: 0;
-            left: 250px;
+            left: 276px;
             z-index: 1000;
         }
         h2 {
@@ -87,6 +87,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             align-items: center;
             margin-left: auto;
         }
+        
     </style>
 </head>
 <body>
@@ -110,8 +111,18 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showContent('classdocumentManagement')">
+                <i class="fas fa-file-alt"></i> Quản lý tài liệu theo lớp
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#" onclick="showContent('documentManagement')">
                 <i class="fas fa-file-alt"></i> Quản lý tài liệu
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showContent('lessondocumentManagement')">
+                <i class="fas fa-file-alt"></i> Nội dung tài liệu
             </a>
         </li>
     </ul>
@@ -121,7 +132,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
     <div class="user-info">
         <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" class="avatar">
         <span class="text-light"><?php echo htmlspecialchars($username); ?></span>
-        <a href="admin_logout.php" class="btn btn-danger btn-sm ms-3">Đăng xuất</a>
+        <a href="admin_logout.php" class="btn btn-danger btn-sm ms-3 "style="margin-right:50px">Đăng xuất</a>
     </div>
 </div>
 
@@ -180,9 +191,36 @@ function showContent(section) {
                 }
             });
             return;
+            case 'classdocumentManagement':
+            $.ajax({
+                url: '../../admin/pages/form_class_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
         case 'documentManagement':
             $.ajax({
                 url: '../../admin/pages/form_document_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+
+
+
+            case 'lessondocumentManagement':
+            $.ajax({
+                url: '../../admin/pages/form_lesson_manager.php',
                 method: 'GET',
                 success: function(data) {
                     contentArea.innerHTML = data;

@@ -12,56 +12,58 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <?php 
+session_start();
 include('../src/font/learn_english/header_english.php');
 ?>
 
-
-
-
-
-
-
-
-
-
-
-
 <?php
-// Giả sử danh sách video được lưu trong một mảng
-$videos = [
-    ['id' => 1, 'title' => 'Video 1', 'url' => 'https://www.youtube.com/watch?v=plKgTyPXCAc'],
-    ['id' => 2, 'title' => 'Video 2', 'url' => 'videos/video2.mp4'],
-    ['id' => 3, 'title' => 'Video 3', 'url' => 'videos/video3.mp4'],
-    ['id' => 1, 'title' => 'Video 1', 'url' => 'https://www.youtube.com/watch?v=plKgTyPXCAc'],
-    ['id' => 2, 'title' => 'Video 2', 'url' => 'videos/video2.mp4'],
-    ['id' => 3, 'title' => 'Video 3', 'url' => 'videos/video3.mp4'],
-    ['id' => 1, 'title' => 'Video 1', 'url' => 'https://www.youtube.com/watch?v=plKgTyPXCAc'],
-    ['id' => 2, 'title' => 'Video 2', 'url' => 'videos/video2.mp4'],
-    ['id' => 3, 'title' => 'Video 3', 'url' => 'videos/video3.mp4'],
-    // Thêm video khác ở đây
-];
+
+include('../config/conn.php'); // Kết nối cơ sở dữ liệu
+
+// Lấy danh sách video từ cơ sở dữ liệu
+$sql = "SELECT * FROM videos"; // Thay đổi tên bảng nếu cần
+$result = $conn->query($sql);
+
+$videos = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $videos[] = $row; // Thêm video vào mảng
+    }
+}
 ?>
 
 
-<div class="container mt-4">
-    <h2 class="text-center">Chọn Video để Hát</h2>
-    <div class="row">
-        <?php foreach ($videos as $video): ?>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($video['title']) ?></h5>
-                        <video width="100%" controls>
-                            <source src="<?= htmlspecialchars($video['https://www.youtube.com/watch?v=plKgTyPXCAc']) ?>" type="video/mp4">
-                            Trình duyệt của bạn không hỗ trợ video.
-                        </video>
-                        <a href="sing_and_score.php?video_id=<?= $video['id'] ?>" class="btn btn-primary mt-2">Hát</a>
+
+
+
+
+
+
+
+
+<body>
+    
+
+    <div class="container mt-4">
+        <h2 class="text-center">Chọn Video để Hát</h2>
+        <div class="row">
+            <?php foreach ($videos as $video): ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($video['title']) ?></h5>
+                            <video width="100%" controls>
+                                <source src="<?= htmlspecialchars($video['video_url']) ?>" type="video/mp4">
+                                Trình duyệt của bạn không hỗ trợ video.
+                            </video>
+                            <a href="sing_and_score.php?video_id=<?= $video['video_id'] ?>" class="btn btn-primary mt-2">Hát</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
     </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
