@@ -8,65 +8,40 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            /* Đặt font chữ cho toàn bộ trang */
-        }
+       
+    body {
+        font-family: 'Arial', sans-serif;
+    }
 
-        .nav-link {
-            color: #38a169;
-            /* Màu chữ cho nav-link */
-            transition: color 0.3s, box-shadow 0.3s;
-            /* Hiệu ứng chuyển màu và shadow */
-            padding: 10px 15px;
-            /* Thêm padding cho nav-link */
-            border-radius: 5px;
-            /* Bo góc cho nav-link */
-        }
+    .nav-link {
+        color: #38a169; /* Màu chữ cho nav-link */
+        transition: color 0.3s, box-shadow 0.3s;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 
-        .nav-link:hover {
-            color: #2f855a;
-            /* Màu khi hover */
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            /* Hiệu ứng shadow khi hover */
-            background-color: rgba(56, 161, 105, 0.1);
-            /* Màu nền khi hover */
-        }
+    .nav-link:hover {
+        color: #ffffff; /* Màu chữ khi hover */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        background-color:rgb(89, 209, 149); /* Màu nền khi hover */
+    }
 
-        .language-button {
-            margin-left: 20px;
-            /* Khoảng cách giữa nút dịch và các phần khác */
-        }
+    .dropdown-item {
+        color: #38a169; /* Màu chữ cho dropdown-item */
+        transition: color 0.3s, background-color 0.3s;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 
-        .dropdown-menu {
-            display: none;
-            /* Ẩn dropdown mặc định */
-            position: absolute;
-            /* Để đặt vị trí */
-        }
+    .dropdown-item:hover {
+        color: #ffffff; /* Màu chữ khi hover */
+        background-color: rgb(89, 209, 149); /* Màu nền khi hover */
+    }
 
-        .dropdown-item {
-            color: #38a169;
-            /* Màu chữ cho dropdown-item */
-            transition: color 0.3s, background-color 0.3s;
-            /* Hiệu ứng chuyển màu cho dropdown-item */
-            padding: 10px 15px;
-            /* Thêm padding cho dropdown-item */
-            border-radius: 5px;
-            /* Bo góc cho dropdown-item */
-        }
-
-        .dropdown-item:hover {
-            color: white;
-            /* Màu chữ khi hover */
-            background-color: #38a169;
-            /* Màu nền khi hover */
-        }
-
-        .dropdown:hover .dropdown-menu {
-            display: block;
-            /* Hiển thị dropdown khi hover */
-        }
+    .dropdown:hover .dropdown-menu {
+        display: block; /* Hiển thị dropdown khi hover */
+    }
+</style>
     </style>
 </head>
 <?php
