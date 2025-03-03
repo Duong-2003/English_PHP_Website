@@ -15,6 +15,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <?php 
+session_start(); // Bắt đầu session
+ob_start(); // Start output buffering
 include('../config/conn.php'); // Kết nối database
 include('../src/font/learn_english/header_english.php');
 ?>

@@ -101,7 +101,7 @@ if (isset($_SESSION['username'])) {
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true"
                         aria-expanded="false" title="Khác">
-                        Start
+                        Start Learn English
                     </a>
                     <div class="dropdown-menu" aria-labelledby="otherDropdown">
                         <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning
@@ -115,7 +115,13 @@ if (isset($_SESSION['username'])) {
                 <!-- <a href="../project/learn_english.php" class="nav-link" title="Bắt đầu">Start</a> -->
 
 
+             
+                <a class="dropdown-item" href="../project/video_collection_page.php"
+                title="Singing and Videos">Singing With Videos</a>
+
                 <a href="../project/document_english.php" class="nav-link" title="Tài liệu">Document</a>
+
+
                 <div class="dropdown">
                     <a class="nav-link dropdown-toggle" id="otherDropdown" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false" title="Khác">
@@ -124,13 +130,12 @@ if (isset($_SESSION['username'])) {
                     <ul class="dropdown-menu" aria-labelledby="otherDropdown">
                         <li><a class="dropdown-item" href="../project/translate_english.php"
                                 title="Translate">Translate</a></li>
-                        <li><a class="dropdown-item" href="#" title="Saved Word">Saved Word</a></li>
+                        <li><a class="dropdown-item" href="../project/save_word.php" title="Saved Word">Saved Word</a></li>
                         <!-- Thêm các mục khác nếu cần -->
                     </ul>
                 </div>
                
-                <a class="dropdown-item" href="../project/video_collection_page.php"
-                            title="Singing and Videos">Singing With Videos</a>
+             
             </nav>
 
             <div class="d-lg-none">
@@ -157,6 +162,7 @@ if (isset($_SESSION['username'])) {
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="../project/profile_english.php">Profile</a></li>
                     <li><a class="dropdown-item" href="../project/setting_english.php">Settings</a></li>
+                    <li><a class="dropdown-item" href="../project/reset_pass.php">Reset Password</a></li>
                     <li><a class="dropdown-item" href="../project/logout.php">Logout</a></li>
                 </ul>
 

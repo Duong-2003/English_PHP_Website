@@ -11,12 +11,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<body>
+
 <?php 
 session_start();
-include('../src/font/learn_english/header_english.php');
-?>
-<body>
-<?php
+include('../src/font/learn_english/header_english.php'); // Bao gồm header
 
 include('../config/conn.php'); // Kết nối cơ sở dữ liệu
 
@@ -35,7 +34,6 @@ if (isset($_SESSION['username'])) {
     }
 }
 ?>
-<body>
 
 <div class="container mt-4 lg:mt-10">
     <div class="flex flex-col lg:flex-row lg:justify-between lg:gap-20 items-start">

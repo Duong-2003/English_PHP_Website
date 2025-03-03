@@ -11,19 +11,36 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         footer {
-            background-color: #f8f9fa;
+            background-color: hsl(0, 0%, 100%);
+            color: #6c757d;
+            padding: 40px 0;
         }
-        .footer-link {
-            color: #007bff; /* Màu xanh cho liên kết */
-            text-decoration: none; /* Bỏ gạch chân */
-        }
+        .contact-item {
+        display: flex;
+        justify-content: space-between; /* Đảm bảo khoảng cách giữa link và thời gian */
+        align-items: center; /* Canh giữa dọc */
+        margin-bottom: 10px; /* Khoảng cách giữa các mục */
+    }
+
+    .footer-link {
+        flex: 1; /* Chiếm không gian còn lại */
+        margin-right: 10px; /* Khoảng cách giữa link và thời gian */
+    }
+
         .footer-link:hover {
             text-decoration: underline; /* Gạch chân khi hover */
         }
+
         .social-icon {
-            font-size: 44px;
+            font-size: 45px;
             margin-right: 15px;
+            color: rgb(71, 126, 182); /* Màu cho biểu tượng mạng xã hội */
+        }
+
+        .social-icon:hover {
+            color: rgb(136, 218, 104); /* Thay đổi màu khi hover */
         }
     </style>
 </head>
@@ -34,56 +51,62 @@
     <div class="container d-flex flex-wrap justify-content-between">
         <div class="col-12 col-md-6 col-lg-3 mb-4">
             <div class="d-flex align-items-center mb-4">
-                <img src="<?= '../public/images/icons/dino.png' ?>" alt="Logo" class="h-12 mr-1">
-                <img src="<?= '../public/images/icons/dino_name.png' ?>" alt="Logo" class="h-12">
+                <img src="../public/images/icons/dino.png" alt="Logo" class="h-12 mr-1">
+                <img src="../public/images/icons/dino_name.png" alt="Logo" class="h-12">
             </div>
-            <p class="font-weight-bold">Vừa chơi vừa học tiếng Anh ngay với  tiếng Anh miễn phí cho tất cả mọi người</p>
+            <p class="font-weight-bold">Vừa chơi vừa học tiếng Anh ngay với tiếng Anh miễn phí cho tất cả mọi người</p>
         </div>
 
         <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <h2 class="h5 font-weight-bold">Chính sách</h2>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-        </div>
+    <h5 class="text-uppercase">Liên hệ</h5>
+    <div class="contact-item d-flex justify-content-between mb-2">
+        <span class="footer-link">Kỹ thuật: 0123.4567</span>
+        <span>(08:30 – 21:30)</span>
+    </div>
+    <div class="contact-item d-flex justify-content-between mb-2">
+        <span class="footer-link">Bảo hành: 0123.4567</span>
+        <span>(08:30 – 21:30)</span>
+    </div>
+    <div class="contact-item d-flex justify-content-between mb-2">
+        <span class="footer-link">CSKH: 0123.4567</span>
+        <span>(08:30 – 21:30)</span>
+    </div>
+    <!-- <div class="contact-item d-flex justify-content-between mb-2">
+        <span class="footer-link">Mua hàng: 0123.4567</span>
+        <span>(08:30 – 21:30)</span>
+    </div> -->
+</div>
+<div class="col-12 col-md-6 col-lg-3 mb-4">
+    <h5 class="text-uppercase">Thông tin</h5>
+    <p>
+        <strong>Trụ sở:</strong> Tầng 6 - Tòa nhà Ladeco - 266 Đội Cấn - TP Hà Nội<br>
+        <strong>Tổng đài:</strong> <span class="footer-link">19006750</span><br>
+        <strong>Email:</strong> <span class="footer-link">support.vn</span>
+    </p>
+</div>
 
+     
         <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <h2 class="h5 font-weight-bold">Liên hệ</h2>
-            <p>Kết nối với chúng tôi</p>
+            <h5 class="text-uppercase">Kết nối với chúng tôi</h5>
             <div class="d-flex">
                 <a href="https://www.facebook.com/dinoenglishpage" target="_blank" aria-label="Facebook">
-                    <i class="fab fa-facebook social-icon" style="color: #3b5998;"></i>
+                    <i class="fab fa-facebook social-icon"></i>
                 </a>
                 <a href="mailto:dinoenglish.allsoft@gmail.com" aria-label="Email">
-                    <i class="fas fa-envelope social-icon" style="color: #EA4335;"></i>
+                    <i class="fas fa-envelope social-icon"></i>
+                </a>
+                <a href="https://twitter.com/your_twitter_handle" target="_blank" aria-label="Twitter">
+                    <i class="fab fa-twitter social-icon"></i>
+                </a>
+                <a href="https://www.instagram.com/your_instagram" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram social-icon"></i>
                 </a>
             </div>
         </div>
-
-        <div class="col-12 col-md-6 col-lg-3 mb-4">
-            <h2 class="h5 font-weight-bold">Download</h2>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-            <div>
-                <a href="#" target="_blank" class="footer-link ">Chính sách bảo mật</a>
-            </div>
-        </div>
+    </div>
+  
+    <div class="text-center">
+        <p>&copy; 2025 Công ty Cổ phần Thương mại. Tất cả các quyền được bảo lưu.</p>
     </div>
 </footer>
 

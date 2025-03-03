@@ -48,9 +48,9 @@
                         <div class="text-colorLandingTextLight">Easy to use, learn while playing, sync on any device, ...</div>
                     </div>
                 </div>
-                <button class="landing-hover-btn font-semibold outline-none text-white bg-gradient-to-r from-green-400 to-green-700 hover:from-green-300 hover:to-green-600 rounded-lg w-full lg:w-auto h-12 px-6 text-sm transition duration-300">
+              <a href="../project/document_english.php"> <button class="landing-hover-btn font-semibold outline-none text-white bg-gradient-to-r from-green-400 to-green-700 hover:from-green-300 hover:to-green-600 rounded-lg w-full lg:w-auto h-12 px-6 text-sm transition duration-300">
                 VIEW DOCUMENT
-                </button>
+                </button></a> 
             </div>
             <div class="shrink-0 mx-auto mb-8 lg:mb-0 lg:self-center relative w-80 h-80 md:w-[350px] md:h-[350px] lg:w-[375px] lg:h-[375px] 2xl:w-[450px] 2xl:h-[450px] flex justify-center">
                 <img src="<?= '../public/images/icons/dino-img-1.png' ?>" alt="Logo" class="h-full w-full object-contain">

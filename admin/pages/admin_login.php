@@ -40,10 +40,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Đăng Nhập Quản Trị</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh; /* Chiều cao của viewport */
+            margin: 0;
+        }
+        .login-container {
+            max-width: 400px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>Đăng Nhập Quản Trị</h2>
+<div class="container login-container">
+    <div class="login-header">
+        <h2>Đăng Nhập Quản Trị</h2>
+    </div>
     <?php if (isset($error)): ?>
         <div class="alert alert-danger" role="alert">
             <?php echo $error; ?>
@@ -58,8 +88,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="password" class="form-label">Mật khẩu</label>
             <input type="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+        <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
