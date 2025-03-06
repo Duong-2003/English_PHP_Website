@@ -1,163 +1,194 @@
+<?php
+session_start();
+include '../config/conn.php';
+
+// Lấy danh sách bài hát từ CSDL (ví dụ bảng songs có các trường: id, title, video_file, lyrics)
+$sql = "SELECT * FROM songs";
+$result = $conn->query($sql);
+$songs = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $songs[] = $row;
+    }
+}
+
+// Xác định bài hát cần phát theo tham số GET, nếu không chọn thì mặc định bài hát đầu tiên
+$song_id = isset($_GET['id']) ? intval($_GET['id']) : (isset($songs[0]['id']) ? $songs[0]['id'] : 0);
+$song = null;
+foreach ($songs as $s) {
+    if ($s['id'] == $song_id) {
+        $song = $s;
+        break;
+    }
+}
+if (!$song) {
+    die("Không tìm thấy bài hát.");
+}
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trình Phát Nhạc</title>
+    <title>Play Karaoke – Video</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* Căn chỉnh và thiết kế cho giao diện */
-        .mediaItemContainer--3BwC2 {
-            max-width: 600px;
-            margin: 0 auto;
+        body {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            padding: 20px;
         }
-
-        .waveformContainer--MJW1W {
-            height: 50px;
-            background: #f0f0f0;
-            position: relative;
+        .lyrics-container {
+            margin-top: 20px;
+            font-size: 20px;
+            color: gray;
+            font-weight: 500;
         }
-
-        .progressBar--Qyz-N {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
+        .score {
+            font-size: 24px;
+            font-weight: 500;
+            color: green;
+            margin-top: 20px;
+        }
+        .record-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
             background: #007bff;
-        }
-
-        .playButton--gXsLw button {
-            background: #007bff;
-            color: white;
-            padding: 10px;
+            color: #fff;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 50%;
         }
-
-        .volumeBar--ntZoi input {
-            width: 100%;
-        }
-
-        .footerSection--DnzP7 {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .volumeBtn--ucfQI {
-            cursor: pointer;
+        .highlight {
+            color: red; /* Highlight the current lyric */
         }
     </style>
 </head>
-
 <body>
-    <div class="mediaItemContainer--3BwC2">
-        <div class="titleSection--OI1oP">
-            <h2>Danh Sách Bài Hát</h2>
-            <div id="songList"></div>
-        </div>
-
-        <div class="waveformSection--fmXE8">
-            <div class="waveformContainer--MJW1W">
-                <div class="trackBar--XcykU">
-                    <div class="progressBar--Qyz-N" style="width: 0%;"></div>
-                </div>
-            </div>
-            <div class="waveformNumbers--droUf">0:00</div>
-        </div>
-
-        <div class="playButtonSection--LVOxN">
-            <div class="playButton--gXsLw">
-                <button class="playPauseButton" aria-label="Chơi / Tạm dừng">
-                    <span class="playIcon">▶️</span>
-                </button>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="footerSection--DnzP7">
-            <div class="container--Qs3az">
-                <button class="volumeBtn--ucfQI" aria-label="Âm lượng">
-                    <span class="icon--L+lBh volume--s7R+A">🔊</span>
-                </button>
-                <div class="volumeBar--ntZoi">
-                    <input type="range" min="0" max="1" step="0.01" value="1" aria-label="Âm lượng" class="volumeControl">
-                </div>
-            </div>
-        </div>
+    <h1><?php echo htmlspecialchars($song["title"]); ?></h1>
+    
+    <!-- Chọn bài hát -->
+    <form method="GET" class="mb-3">
+        <select name="id" onchange="this.form.submit()">
+            <?php foreach ($songs as $s): ?>
+                <option value="<?php echo $s['id']; ?>" <?php echo ($s['id'] == $song_id) ? 'selected' : ''; ?>>
+                    <?php echo htmlspecialchars($s['title']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+    
+    <!-- Nhúng video (nếu có) -->
+    <div id="mediaPlayer" class="mb-4">
+        <?php if (!empty($song["video_file"])): ?>
+            <?php 
+                // Chuyển đổi URL video thành dạng nhúng (giả sử video_file chứa URL YouTube)
+                function getYoutubeEmbedUrl($url) {
+                    if (strpos($url, "youtu.be") !== false) {
+                        $parts = explode("/", $url);
+                        $id = end($parts);
+                        return "https://www.youtube.com/embed/" . $id;
+                    }
+                    if (strpos($url, "youtube.com/watch?v=") !== false) {
+                        parse_str(parse_url($url, PHP_URL_QUERY), $query);
+                        if (isset($query['v'])) {
+                            return "https://www.youtube.com/embed/" . $query['v'];
+                        }
+                    }
+                    return $url;
+                }
+                $embedUrl = getYoutubeEmbedUrl($song["video_file"]);
+                echo '<iframe width="500" height="281" src="' . $embedUrl . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            ?>
+        <?php else: ?>
+            <p>Không có video</p>
+        <?php endif; ?>
     </div>
-
-    <audio id="audioPlayer" preload="auto"></audio>
-
+    
+    <!-- Hiển thị lời bài hát -->
+    <div class="lyrics-container" id="lyrics">
+        <?php 
+        // Tạo các phần lời với data-time
+        $lyrics = explode("\n", $song["lyrics"]); 
+        foreach ($lyrics as $index => $line) {
+            $time = $index * 5; // Giả sử mỗi câu lời có thời gian khoảng 5s
+            echo '<p data-time="' . $time . '">' . htmlspecialchars($line) . '</p>';
+        }
+        ?>
+    </div>
+    
+    <!-- Nút ghi âm và chấm điểm -->
+    <button class="record-btn" id="recordBtn">Bắt đầu ghi âm & Chấm điểm</button>
+    
+    <!-- Hiển thị điểm -->
+    <div class="score" id="scoreDisplay"></div>
+    
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Lấy danh sách bài hát từ server
-        fetch('../project/get_songs.php')
-            .then(response => response.json())
-            .then(songs => {
-                const songListDiv = document.getElementById('songList');
-                songs.forEach(song => {
-                    const songItem = document.createElement('div');
-                    songItem.innerHTML = `<button onclick="playSong('${song.audio_file}', '${song.title}')">${song.title}</button>`;
-                    songListDiv.appendChild(songItem);
-                });
-            })
-            .catch(error => {
-                console.error('Lỗi khi lấy danh sách bài hát:', error);
+        let player; // Đối tượng YouTube Player
+        let lyrics = document.getElementById("lyrics").children;
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('mediaPlayer', {
+                height: '281',
+                width: '500',
+                videoId: getYoutubeVideoId(), // ID của video YouTube, bạn có thể lấy từ CSDL
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
             });
+        }
 
-        // Lấy các phần tử DOM
-        const audio = document.getElementById('audioPlayer');
-        const playPauseButton = document.querySelector('.playPauseButton');
-        const volumeControl = document.querySelector('.volumeControl');
-        const progressBar = document.querySelector('.progressBar--Qyz-N');
-        const waveformNumbers = document.querySelector('.waveformNumbers--droUf');
+        // Khi video thay đổi trạng thái (ví dụ như video đang chạy)
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                console.log("Video đang chạy");
+            }
+        }
 
-        // Thực hiện chức năng Play / Pause
-        playPauseButton.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play().catch(error => {
-                    console.error('Lỗi khi phát âm thanh:', error);
-                });
-                playPauseButton.innerHTML = "⏸️";  // Biểu tượng tạm dừng
-            } else {
-                audio.pause();
-                playPauseButton.innerHTML = "▶️";  // Biểu tượng phát
+        // Chạy video từ đầu
+        function playVideo() {
+            player.seekTo(0); // Quay lại từ đầu
+            player.playVideo();
+        }
+
+        // Đồng bộ lời bài hát với video
+        function syncLyricsWithVideo() {
+            const currentTime = player.getCurrentTime(); // Lấy thời gian hiện tại trong video
+
+            for (let i = 0; i < lyrics.length; i++) {
+                const lyricTime = parseFloat(lyrics[i].getAttribute("data-time"));
+                if (currentTime >= lyricTime) {
+                    lyrics[i].classList.add("highlight"); // Hiển thị lời đang hát
+                } else {
+                    lyrics[i].classList.remove("highlight");
+                }
+            }
+        }
+
+        // Hàm thực hiện đồng bộ lyrics với video mỗi 100ms
+        setInterval(syncLyricsWithVideo, 100);
+
+        let isRecording = false;
+
+        // Hàm xử lý bắt đầu ghi âm
+        document.getElementById("recordBtn").addEventListener("click", function() {
+            if (!isRecording) {
+                // Bắt đầu ghi âm
+                recorder.start();
+                isRecording = true;
+                document.getElementById("recordBtn").textContent = "Đang ghi âm...";
+
+                // Sau 5 giây, dừng ghi âm và bắt đầu phân tích
+                setTimeout(function() {
+                    recorder.stop();
+                    isRecording = false;
+                    document.getElementById("recordBtn").textContent = "Bắt đầu ghi âm lại";
+                }, 5000); // Ghi âm trong 5 giây
             }
         });
-
-        // Điều chỉnh âm lượng
-        volumeControl.addEventListener('input', (event) => {
-            audio.volume = event.target.value;
-        });
-
-        // Cập nhật thanh tiến trình
-        audio.addEventListener('timeupdate', () => {
-            const progress = (audio.currentTime / audio.duration) * 100;
-            progressBar.style.width = `${progress}%`;
-
-            // Cập nhật thời gian
-            const minutes = Math.floor(audio.currentTime / 60);
-            const seconds = Math.floor(audio.currentTime % 60);
-            waveformNumbers.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-        });
-
-        // Đảm bảo thanh tiến trình được cập nhật khi hoàn thành bài hát
-        audio.addEventListener('ended', () => {
-            progressBar.style.width = '0%';
-            waveformNumbers.textContent = '0:00';
-            playPauseButton.innerHTML = "▶️";  // Biểu tượng phát khi kết thúc
-        });
-
-        // Chơi bài hát
-        function playSong(audioUrl, title) {
-            audio.src = audioUrl;
-            audio.play()
-                .catch(error => {
-                    console.error('Lỗi khi phát âm thanh:', error);
-                });
-            playPauseButton.innerHTML = "⏸️";  // Biểu tượng tạm dừng
-        }
     </script>
 </body>
 </html>
