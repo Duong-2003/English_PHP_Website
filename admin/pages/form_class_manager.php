@@ -40,8 +40,8 @@ $classes = $result->fetch_all(MYSQLI_ASSOC);
     <h2>Quản Lý Lớp Học</h2>
    
 
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
                 <th>ID</th>
                 <th>Tên Lớp</th>

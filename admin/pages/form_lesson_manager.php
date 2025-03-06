@@ -49,8 +49,8 @@ $lessons = $conn->query("SELECT id, title, content, image_url FROM lessons");
 
     <!-- Danh sách bài học -->
     <h3>Danh Sách Bài Học</h3>
-    <table class="table">
-        <thead>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
             <tr>
                 <th>ID</th>
                 <th>Tiêu Đề</th>

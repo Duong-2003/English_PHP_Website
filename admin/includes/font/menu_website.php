@@ -181,7 +181,7 @@ function showContent(section) {
             return;
         case 'videoManagement':
             $.ajax({
-                url: '../../admin/pages/form_videos_manager.php',
+                url: '../../admin/pages/form_audio_manager.php',
                 method: 'GET',
                 success: function(data) {
                     contentArea.innerHTML = data;

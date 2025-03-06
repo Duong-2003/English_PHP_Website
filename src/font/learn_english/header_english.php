@@ -91,7 +91,7 @@ if (isset($_SESSION['username'])) {
 
 
              
-                <a class="dropdown-item" href="../project/video_collection_page.php"
+                <a class="dropdown-item" href="../project/audio_collection_page.php"
                 title="Singing and Videos">Singing With Videos</a>
 
                 <a href="../project/document_english.php" class="nav-link" title="Tài liệu">Document</a>

@@ -27,8 +27,8 @@ $users = $result->fetch_all(MYSQLI_ASSOC);
     <button>
     <a href="../../admin/includes/font/modal_add_user_manager.php#" class="btn btn-warning" onclick="editUser(<?php echo $user['user_id']; ?>)">Thêm</a>
     </button>
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-bordered">
+    <thead class="thead-dark">
             <tr>
                 <th>ID</th>
                 <th>Tên</th>
