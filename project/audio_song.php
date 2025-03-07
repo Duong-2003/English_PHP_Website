@@ -2,17 +2,23 @@
 session_start();
 include '../config/conn.php';
 
-// Lấy danh sách bài hát từ CSDL (ví dụ bảng songs có các trường: id, title, video_file, lyrics)
+// Kiểm tra kết nối CSDL
+if ($conn->connect_error) {
+    error_log("Lỗi kết nối CSDL: " . $conn->connect_error);
+    die("Lỗi server. Vui lòng thử lại sau.");
+}
+
+// Lấy danh sách bài hát từ CSDL
 $sql = "SELECT * FROM songs";
 $result = $conn->query($sql);
 $songs = [];
-if ($result->num_rows > 0) {
+if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $songs[] = $row;
     }
 }
 
-// Xác định bài hát cần phát theo tham số GET, nếu không chọn thì mặc định bài hát đầu tiên
+// Xác định bài hát cần phát
 $song_id = isset($_GET['id']) ? intval($_GET['id']) : (isset($songs[0]['id']) ? $songs[0]['id'] : 0);
 $song = null;
 foreach ($songs as $s) {
@@ -25,14 +31,16 @@ if (!$song) {
     die("Không tìm thấy bài hát.");
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Play Karaoke – Video</title>
+    <title>Chơi Karaoke – Video</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -62,14 +70,13 @@ if (!$song) {
             cursor: pointer;
         }
         .highlight {
-            color: red; /* Highlight the current lyric */
+            color: red;
         }
     </style>
 </head>
 <body>
     <h1><?php echo htmlspecialchars($song["title"]); ?></h1>
-    
-    <!-- Chọn bài hát -->
+
     <form method="GET" class="mb-3">
         <select name="id" onchange="this.form.submit()">
             <?php foreach ($songs as $s): ?>
@@ -79,116 +86,173 @@ if (!$song) {
             <?php endforeach; ?>
         </select>
     </form>
-    
-    <!-- Nhúng video (nếu có) -->
+
     <div id="mediaPlayer" class="mb-4">
         <?php if (!empty($song["video_file"])): ?>
-            <?php 
-                // Chuyển đổi URL video thành dạng nhúng (giả sử video_file chứa URL YouTube)
-                function getYoutubeEmbedUrl($url) {
-                    if (strpos($url, "youtu.be") !== false) {
-                        $parts = explode("/", $url);
-                        $id = end($parts);
-                        return "https://www.youtube.com/embed/" . $id;
-                    }
-                    if (strpos($url, "youtube.com/watch?v=") !== false) {
-                        parse_str(parse_url($url, PHP_URL_QUERY), $query);
-                        if (isset($query['v'])) {
-                            return "https://www.youtube.com/embed/" . $query['v'];
-                        }
-                    }
-                    return $url;
+            <?php
+            function getYoutubeEmbedUrl($url) {
+                if (strpos($url, "youtu.be") !== false) {
+                    $parts = explode("/", $url);
+                    $id = end($parts);
+                    return "https://www.youtube.com/embed/" . $id;
                 }
-                $embedUrl = getYoutubeEmbedUrl($song["video_file"]);
-                echo '<iframe width="500" height="281" src="' . $embedUrl . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+                if (strpos($url, "youtube.com/watch?v=") !== false) {
+                    parse_str(parse_url($url, PHP_URL_QUERY), $query);
+                    if (isset($query['v'])) {
+                        return "https://www.youtube.com/embed/" . $query['v'];
+                    }
+                }
+                return $url;
+            }
+            $embedUrl = getYoutubeEmbedUrl($song["video_file"]);
+            echo '<iframe id="youtube-player" width="500" height="281" src="' . $embedUrl . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
             ?>
         <?php else: ?>
             <p>Không có video</p>
         <?php endif; ?>
     </div>
-    
-    <!-- Hiển thị lời bài hát -->
+
     <div class="lyrics-container" id="lyrics">
-        <?php 
-        // Tạo các phần lời với data-time
-        $lyrics = explode("\n", $song["lyrics"]); 
+        <?php
+        $lyrics = explode("\n", $song["lyrics"]);
         foreach ($lyrics as $index => $line) {
-            $time = $index * 5; // Giả sử mỗi câu lời có thời gian khoảng 5s
-            echo '<p data-time="' . $time . '">' . htmlspecialchars($line) . '</p>';
+            $time = $index * 5; // Giả sử mỗi câu lời có thời gian khoảng 5 giây
+            echo '<p class="lyric-line" data-time="' . $time . '">' . htmlspecialchars($line) . '</p>';
         }
         ?>
     </div>
-    
-    <!-- Nút ghi âm và chấm điểm -->
-    <button class="record-btn" id="recordBtn">Bắt đầu ghi âm & Chấm điểm</button>
-    
-    <!-- Hiển thị điểm -->
+
+    <button class="record-btn" id="recordBtn">Bắt đầu ghi âm</button>
+    <button class="record-btn" id="stopBtn" style="display:none">Dừng ghi âm</button>
+    <button class="record-btn" id="toggleMicBtn">Bật microphone</button>
+
     <div class="score" id="scoreDisplay"></div>
-    
+
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        let player; // Đối tượng YouTube Player
-        let lyrics = document.getElementById("lyrics").children;
+        let player;
+        let lyrics = document.querySelectorAll(".lyric-line");
+        let isRecording = false;
+        let recorder;
+        let isMicOn = false; // Trạng thái bật/tắt microphone
 
         function onYouTubeIframeAPIReady() {
-            player = new YT.Player('mediaPlayer', {
+            player = new YT.Player('youtube-player', {
                 height: '281',
                 width: '500',
-                videoId: getYoutubeVideoId(), // ID của video YouTube, bạn có thể lấy từ CSDL
+                videoId: getYoutubeVideoId(),
                 events: {
                     'onStateChange': onPlayerStateChange
                 }
             });
         }
 
-        // Khi video thay đổi trạng thái (ví dụ như video đang chạy)
         function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PLAYING) {
+            if (event.data === YT.PlayerState.PLAYING) {
                 console.log("Video đang chạy");
             }
         }
 
-        // Chạy video từ đầu
-        function playVideo() {
-            player.seekTo(0); // Quay lại từ đầu
-            player.playVideo();
+        function getYoutubeVideoId() {
+            const embedUrl = document.getElementById('youtube-player').src;
+            const urlParams = new URLSearchParams(new URL(embedUrl).search);
+            return urlParams.get('v') || embedUrl.split('/').pop().split('?')[0];
         }
 
-        // Đồng bộ lời bài hát với video
         function syncLyricsWithVideo() {
-            const currentTime = player.getCurrentTime(); // Lấy thời gian hiện tại trong video
-
-            for (let i = 0; i < lyrics.length; i++) {
-                const lyricTime = parseFloat(lyrics[i].getAttribute("data-time"));
-                if (currentTime >= lyricTime) {
-                    lyrics[i].classList.add("highlight"); // Hiển thị lời đang hát
-                } else {
-                    lyrics[i].classList.remove("highlight");
-                }
+            if (player && player.getCurrentTime) {
+                const currentTime = player.getCurrentTime();
+                lyrics.forEach(lyric => {
+                    const lyricTime = parseFloat(lyric.getAttribute("data-time"));
+                    const lyricEndTime = lyricTime + 5; // Giả định mỗi dòng kéo dài 5 giây
+                    if (currentTime >= lyricTime && currentTime < lyricEndTime) {
+                        lyric.classList.add("highlight");
+                    } else {
+                        lyric.classList.remove("highlight");
+                    }
+                });
             }
         }
 
-        // Hàm thực hiện đồng bộ lyrics với video mỗi 100ms
         setInterval(syncLyricsWithVideo, 100);
 
-        let isRecording = false;
+        navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                recorder = RecordRTC(stream, {
+                    type: 'audio',
+                    mimeType: 'audio/wav'
+                });
 
-        // Hàm xử lý bắt đầu ghi âm
+                // Tạo một AudioContext để phát âm thanh từ microphone
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaStreamSource(stream);
+                const gainNode = audioContext.createGain();
+                source.connect(gainNode);
+                gainNode.connect(audioContext.destination); // Kết nối đến đầu ra âm thanh
+
+                document.getElementById("toggleMicBtn").addEventListener("click", function() {
+                    isMicOn = !isMicOn;
+                    gainNode.gain.value = isMicOn ? 1 : 0; // Điều chỉnh âm lượng microphone
+                    this.innerText = isMicOn ? "Tắt microphone" : "Bật microphone";
+                });
+            })
+            .catch(function(error) {
+                console.error('Không thể truy cập microphone:', error);
+            });
+
         document.getElementById("recordBtn").addEventListener("click", function() {
-            if (!isRecording) {
-                // Bắt đầu ghi âm
-                recorder.start();
+            if (!isRecording && recorder) {
+                player.playVideo(); // Bắt đầu phát video
+                recorder.startRecording();
                 isRecording = true;
-                document.getElementById("recordBtn").textContent = "Đang ghi âm...";
-
-                // Sau 5 giây, dừng ghi âm và bắt đầu phân tích
-                setTimeout(function() {
-                    recorder.stop();
-                    isRecording = false;
-                    document.getElementById("recordBtn").textContent = "Bắt đầu ghi âm lại";
-                }, 5000); // Ghi âm trong 5 giây
+                this.style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-block';
             }
         });
+
+        document.getElementById("stopBtn").addEventListener("click", async function() {
+            if (isRecording && recorder) {
+                recorder.stopRecording(async function() {
+                    let blob = recorder.getBlob();
+                    const formData = new FormData();
+                    formData.append('audio', blob, 'recording.wav');
+
+                    try {
+                        const response = await fetch('upload.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        if (data.error) {
+                            console.error("Lỗi server:", data.error);
+                            alert("Lỗi server: " + data.error);
+                            return;
+                        }
+                        document.getElementById("scoreDisplay").innerText = "Điểm: " + data.score;
+                        displayErrors(data.errors);
+                    } catch (error) {
+                        console.error('Lỗi khi gửi âm thanh:', error);
+                        alert("Lỗi khi gửi âm thanh: " + error.message);
+                    }
+
+                    isRecording = false;
+                    document.getElementById("recordBtn").style.display = 'inline-block';
+                    document.getElementById('stopBtn').style.display = 'none';
+                });
+            }
+        });
+
+        function displayErrors(errors) {
+            let lyricsElement = document.getElementById('lyrics');
+            let lyricsHTML = lyricsElement.innerHTML;
+
+            errors.forEach(error => {
+                let regex = new RegExp(`\\b${error.word}\\b`, 'gi');
+                lyricsHTML = lyricsHTML.replace(regex, `<span style="color: red;" title="Expected: ${error.expected}, Actual: ${error.actual}">${error.word}</span>`);
+            });
+
+            lyricsElement.innerHTML = lyricsHTML;
+        }
     </script>
 </body>
 </html>
