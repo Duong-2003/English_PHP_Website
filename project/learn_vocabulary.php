@@ -6,7 +6,6 @@
     <title>Dino English Translate</title>
     <link rel="icon" type="image/x-icon" href="images/icons/dino.png">
 
-    <!-- CSS Libraries -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -14,13 +13,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<?php 
+<?php
 session_start(); // Bắt đầu session
 ob_start(); // Start output buffering
 include('../config/conn.php'); // Kết nối database
 include('../src/font/learn_english/header_english.php');
-
-
 ?>
 
 <?php
@@ -46,8 +43,8 @@ $result = $query->get_result();
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .card { background-color: #fff; border-radius: 8px; padding: 20px; transition: transform 0.2s; }
         .card:hover { transform: scale(1.05); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }
-        .choices { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; }
-        .choice-img { margin: 5px; cursor: pointer; border: 2px solid transparent; border-radius: 8px; transition: border-color 0.3s; width: 100px; height: 100px; object-fit: cover; }
+        .choices { margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; } /* Thay đổi tại đây */
+        .choice-img { margin: 5px; cursor: pointer; border: 2px solid transparent; border-radius: 8px; transition: border-color 0.3s; width: 100px; height: 100px; object-fit: cover; } /* Thay đổi tại đây */
         .choice-img:hover { border-color: #007bff; }
         .correct-answer { display: none; margin-top: 10px; font-weight: bold; color: green; }
         .choice-correct { border-color: green; }
@@ -62,8 +59,8 @@ $result = $query->get_result();
         <h2 class="text-center">Trò Chơi Từ Vựng - <?php echo htmlspecialchars($topic); ?></h2>
         <div class="row">
             <?php while ($row = $result->fetch_assoc()): ?>
-                <div class="col-md-4 mb-4">
-                    <div class="card p-3 border border-colorGrey3/70 shadow-sm">
+                <div class="col-md-6 mb-6">
+                    <div class="card p-4 border border-colorGrey3/70 shadow-sm">
                         <h3 class="font-medium text-xl"><?php echo htmlspecialchars($row['word']); ?></h3>
                         <div class="choices">
                             <?php
