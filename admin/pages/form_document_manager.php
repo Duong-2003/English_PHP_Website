@@ -1,9 +1,12 @@
+
+
 <?php
 include '../../config/conn.php'; // Bao gồm file kết nối
 
-// Lấy tất cả tài liệu từ cơ sở dữ liệu
-$sql = "SELECT * FROM documents ORDER BY uploaded_at DESC";
-$result = $conn->query($sql);
+// Lấy danh sách tài liệu
+$documents = $conn->query("SELECT d.id AS document_id, d.title, d.file_path, u.username 
+                             FROM documents d 
+                             JOIN users u ON d.user_id = u.user_id");
 ?>
 
 <!DOCTYPE html>
@@ -12,43 +15,48 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản Lý Tài Liệu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Danh Sách Tài Liệu</h1>
-    <table class="table table-bordered">
-        <thead class="thead-dark">
+<div class="container">
+   <h3>Danh Sách Tài Liệu</h3>
+   <a href="../../admin/includes/logic/add_document_manager.php">><button>Thm tai lieu</button></a>
+    <table class="table">
+        <thead>
             <tr>
                 <th>ID</th>
                 <th>Tiêu Đề</th>
-                <th>Tên File</th>
-                <th>Đường Dẫn</th>
-                <th>Ngày Tải Lên</th>
+                <th>Tài Liệu</th>
+                <th>Người Dùng</th>
                 <th>Thao Tác</th>
             </tr>
         </thead>
         <tbody>
-            <?php
-            if ($result->num_rows > 0) {
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                            <td>" . $row['id'] . "</td>
-                            <td>" . $row['title'] . "</td>
-                            <td>" . $row['file_name'] . "</td>
-                            <td><a href='" . $row['file_path'] . "'>Tải về</a></td>
-                            <td>" . $row['uploaded_at'] . "</td>
-                            <td>
-                                <a href='edit.php?id=" . $row['id'] . "'>Sửa</a> | 
-                                <a href='delete.php?id=" . $row['id'] . "'>Xóa</a>
-                            </td>
-                          </tr>";
-                }
-            } else {
-                echo "<tr><td colspan='6'>Không có tài liệu nào.</td></tr>";
-            }
-            ?>
+            <?php while($doc = $documents->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($doc['document_id']); ?></td>
+                    <td><?php echo htmlspecialchars($doc['title']); ?></td>
+                    <td>
+                    <td>
+    <a href="../../admin/includes/logic/serve_document.php?file_id=<?php echo $doc['document_id']; ?>&action=view" target="_blank" class="btn btn-info btn-sm">Xem</a>
+    <a href="../../admin/includes/logic/serve_document.php?file_id=<?php echo $doc['document_id']; ?>&action=download" class="btn btn-success btn-sm">Tải Về</a>
+
+                    </td>
+                    <td><?php echo htmlspecialchars($doc['username']); ?></td>
+                    <td>
+                        <form method="POST" action="delete_document.php" style="display:inline;">
+                            <input type="hidden" name="document_id" value="<?php echo htmlspecialchars($doc['document_id']); ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
         </tbody>
     </table>
+</div>
 
-    <a href="upload.php">Tải tài liệu lên</a>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,29 +1,37 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/icons/dino.png">
     <title>Website Learning English</title>
+    <link rel="icon" type="image/x-icon" href="images/icons/dino.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Chọn font mặc định cho trang */
+        }
+        .section-title {
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
 <body>
-<?php
-session_start(); // Bắt đầu session
-ob_start(); // Start output buffering
-include('../config/conn.php'); // Kết nối database
-include('../src/font/learn_english/header_english.php');
+
+<?php 
+session_start();
+include('../src/font/learn_english/header_english.php'); // Bao gồm header
+include('../config/conn.php'); // Kết nối cơ sở dữ liệu
+
 // Lấy danh sách tài liệu
-$query = "SELECT d.document_id, d.title, d.file_url, c.class_name 
-          FROM documents d 
-          JOIN classes c ON d.class_id = c.class_id";
-$result = $conn->query($query);
+$documents = $conn->query("SELECT d.id AS document_id, d.title, d.file_path, u.username 
+                             FROM documents d 
+                             JOIN users u ON d.user_id = u.user_id");
 ?>
 <div class="container mt-5">
     <h1 class="text-center">Tài Liệu Tiếng Anh</h1>
@@ -31,23 +39,34 @@ $result = $conn->query($query);
 
     <div class="section">
         <h2 class="section-title">Danh Sách Tài Liệu</h2>
-        <ul class="list-group">
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($doc = $result->fetch_assoc()): ?>
-                    <li class="list-group-item">
-                        <a href="<?php echo htmlspecialchars($doc['file_url']); ?>" class="text-decoration-none" target="_blank">
-                            <?php echo htmlspecialchars($doc['title']); ?>
-                        </a>
-                        <span class="float-end"><i class="fas fa-download"></i></span>
-                    </li>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <li class="list-group-item">Không có tài liệu nào.</li>
-            <?php endif; ?>
-        </ul>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tiêu Đề</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($documents->num_rows > 0): ?>
+                    <?php while($doc = $documents->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($doc['document_id']); ?></td>
+                            <td><?php echo htmlspecialchars($doc['title']); ?></td>
+                            <td>
+                            <a href="../admin/includes/logic/serve_document.php?file_id=<?php echo $doc['document_id']; ?>&action=view" target="_blank" class="btn btn-info btn-sm">Xem</a>
+                            <a href="../admin/includes/logic/serve_document.php?file_id=<?php echo $doc['document_id']; ?>&action=download" class="btn btn-success btn-sm">Tải Về</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="3" class="text-center">Không có tài liệu nào.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
     </div>
-
-    
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
