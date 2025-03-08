@@ -220,7 +220,7 @@ function showContent(section) {
 
             case 'lessondocumentManagement':
             $.ajax({
-                url: '../../admin/pages/form_lesson_manager.php',
+                url: '../../admin/pages/form_vocabulary_manager.php',
                 method: 'GET',
                 success: function(data) {
                     contentArea.innerHTML = data;

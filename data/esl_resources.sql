@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 07, 2025 lúc 07:26 AM
+-- Thời gian đã tạo: Th3 08, 2025 lúc 12:53 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -53,8 +53,19 @@ CREATE TABLE `documents` (
   `title` varchar(255) NOT NULL,
   `file_name` varchar(255) NOT NULL,
   `file_path` varchar(255) NOT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uploaded_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `documents`
+--
+
+INSERT INTO `documents` (`id`, `title`, `file_name`, `file_path`, `uploaded_at`, `user_id`) VALUES
+(1, 'eeee', 'Key - CONSONANTS - new.pdf', '../admin/assets/uploads/Key - CONSONANTS - new.pdf', '2025-03-08 10:34:53', 18),
+(2, 'dd', 'Pronunciation Lesson - new.pdf', '../admin/assets/uploads/Pronunciation Lesson - new.pdf', '2025-03-08 10:41:48', 18),
+(3, 'aaaa', 'Nhóm-2_520401B.pdf', '../admin/assets/uploads/Nhóm-2_520401B.pdf', '2025-03-08 11:24:35', 17),
+(8, 'aaa', '14_NguyenVanCuong_CTL601.pdf', '../admin/assets/uploads/14_NguyenVanCuong_CTL601.pdf', '2025-03-08 11:37:58', 18);
 
 -- --------------------------------------------------------
 
@@ -135,7 +146,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `created_at`, `last_login`, `profile_picture`, `status`, `role`) VALUES
-(17, 'admin', '$2y$10$Hx6L0zBa5CPNuK1DNC3DdeHI7egVaTqjlrNkFSA2LCqHB7WjzLpM2', 'admin@gmail.com', '2025-02-26 16:30:08', '2025-03-07 05:59:31', NULL, 'active', 'teacher'),
+(17, 'admin', '$2y$10$Hx6L0zBa5CPNuK1DNC3DdeHI7egVaTqjlrNkFSA2LCqHB7WjzLpM2', 'admin@gmail.com', '2025-02-26 16:30:08', '2025-03-08 10:13:30', NULL, 'active', 'teacher'),
 (18, 'student', '$2y$10$wwcU8/WsHqTkcxYOxbZft.dlRb0Fihr4sRuhjGPNMdvshgDMIwOiy', 'student1@gmail.com', '2025-03-02 14:12:11', '2025-03-06 11:20:56', NULL, 'active', 'student');
 
 --
@@ -152,7 +163,8 @@ ALTER TABLE `classes`
 -- Chỉ mục cho bảng `documents`
 --
 ALTER TABLE `documents`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user` (`user_id`);
 
 --
 -- Chỉ mục cho bảng `saved_words`
@@ -195,7 +207,7 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT cho bảng `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT cho bảng `saved_words`
@@ -224,6 +236,12 @@ ALTER TABLE `users`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
+
+--
+-- Các ràng buộc cho bảng `documents`
+--
+ALTER TABLE `documents`
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `scores`

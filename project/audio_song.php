@@ -178,17 +178,19 @@ if (!$song) {
 
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(function(stream) {
-                recorder = RecordRTC(stream, {
-                    type: 'audio',
-                    mimeType: 'audio/wav'
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)({
+                    sampleRate: 44100 // Đặt tần số mẫu
                 });
-
-                // Tạo một AudioContext để phát âm thanh từ microphone
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const source = audioContext.createMediaStreamSource(stream);
                 const gainNode = audioContext.createGain();
                 source.connect(gainNode);
                 gainNode.connect(audioContext.destination); // Kết nối đến đầu ra âm thanh
+
+                recorder = RecordRTC(stream, {
+                    type: 'audio',
+                    mimeType: 'audio/wav',
+                    sampleRate: 44100 // Đặt tần số mẫu ở đây
+                });
 
                 document.getElementById("toggleMicBtn").addEventListener("click", function() {
                     isMicOn = !isMicOn;

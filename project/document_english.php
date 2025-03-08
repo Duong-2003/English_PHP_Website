@@ -32,7 +32,7 @@ $documents = $conn->query("SELECT d.id AS document_id, d.title, d.file_path, u.u
     <p class="text-center text-muted">Dưới đây là danh sách tài liệu học tiếng Anh.</p>
 
     <div class="section">
-        <h2 class="section-title">Danh Sách Tài Liệu</h2>
+      
         <table class="table table-bordered">
             <thead>
                 <tr>
