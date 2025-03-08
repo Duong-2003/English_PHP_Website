@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 08, 2025 lúc 12:53 PM
+-- Thời gian đã tạo: Th3 08, 2025 lúc 04:09 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -149,6 +149,29 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `created_at`, `
 (17, 'admin', '$2y$10$Hx6L0zBa5CPNuK1DNC3DdeHI7egVaTqjlrNkFSA2LCqHB7WjzLpM2', 'admin@gmail.com', '2025-02-26 16:30:08', '2025-03-08 10:13:30', NULL, 'active', 'teacher'),
 (18, 'student', '$2y$10$wwcU8/WsHqTkcxYOxbZft.dlRb0Fihr4sRuhjGPNMdvshgDMIwOiy', 'student1@gmail.com', '2025-03-02 14:12:11', '2025-03-06 11:20:56', NULL, 'active', 'student');
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `vocabulary`
+--
+
+CREATE TABLE `vocabulary` (
+  `id` int(11) NOT NULL,
+  `word` varchar(255) NOT NULL,
+  `choices` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`choices`)),
+  `correct_choice` varchar(255) NOT NULL,
+  `topic` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `vocabulary`
+--
+
+INSERT INTO `vocabulary` (`id`, `word`, `choices`, `correct_choice`, `topic`, `image`) VALUES
+(5, 'Dog', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'dog.jpg', 'animals', ''),
+(22, 'cat', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'cat.jpg', 'animals', '');
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
@@ -194,6 +217,12 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Chỉ mục cho bảng `vocabulary`
+--
+ALTER TABLE `vocabulary`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
 
@@ -232,6 +261,12 @@ ALTER TABLE `songs`
 --
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT cho bảng `vocabulary`
+--
+ALTER TABLE `vocabulary`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
