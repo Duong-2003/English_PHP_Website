@@ -1,3 +1,5 @@
+
+
 <?php
 include '../../config/conn.php'; // Bao gồm file kết nối
 
@@ -12,6 +14,9 @@ $videoCount = $videoCountResult->fetch_assoc()['count'];
 // Lấy số lượng tài liệu
 $documentCountResult = $conn->query("SELECT COUNT(*) AS count FROM documents");
 $documentCount = $documentCountResult->fetch_assoc()['count'];
+// Lấy số lượng tài liệu
+$vocabularyCountResult = $conn->query("SELECT COUNT(*) AS count FROM vocabulary");
+$vocabularyCount = $vocabularyCountResult->fetch_assoc()['count'];
 ?>
 
 
@@ -19,7 +24,7 @@ $documentCount = $documentCountResult->fetch_assoc()['count'];
 <div class="container">
     <h2 class="text-center mt-5">Dashboard - Trang Quản Trị</h2>
 
-    <div class="row mt-4">
+    <div class="row mt-4 mb-4">
         <div class="col-md-4">
             <div class="card text-center">
                 <div class="card-header">
@@ -50,6 +55,19 @@ $documentCount = $documentCountResult->fetch_assoc()['count'];
                 <div class="card-body">
                     <h3 class="card-title"><?php echo htmlspecialchars($documentCount); ?></h3>
                     <p class="card-text">Tổng số tài liệu hiện có.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-header">
+                    Số Lượng Từ Vựng
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title"><?php echo htmlspecialchars($vocabularyCount); ?></h3>
+                    <p class="card-text">Tổng số từ vựng hiện có.</p>
                 </div>
             </div>
         </div>

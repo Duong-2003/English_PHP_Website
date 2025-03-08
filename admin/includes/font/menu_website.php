@@ -16,16 +16,21 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="images/icons/dino.png">
-    <title>Admin Dashboard - Website Learning English</title>
+    <title>Website Learning English</title>
     <style>
         body {
             display: flex;
             height: 100vh;
             margin: 0;
             flex-direction: column;
+            /* font-family: 'Arial', sans-serif; */
+            background-color: #f8f9fa; /* Màu nền nhẹ */
         }
         .sidebar {
             min-width: 250px;
@@ -43,7 +48,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             text-align: center;
         }
         .top-bar {
-            background-color: #007bff;
+            background-color:rgb(63, 124, 189);
             color: white;
             display: flex;
             align-items: center;
@@ -66,6 +71,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
         .nav-link {
             font-size: 1.1rem;
             color: white;
+            transition: background-color 0.3s;
         }
         .nav-link:hover {
             background-color: #495057;
@@ -87,7 +93,11 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             align-items: center;
             margin-left: auto;
         }
-        
+        /* Cải thiện kiểu chữ */
+      
+        .nav-item {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -132,7 +142,7 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
     <div class="user-info">
         <img src="<?php echo htmlspecialchars($avatar); ?>" alt="Avatar" class="avatar">
         <span class="text-light"><?php echo htmlspecialchars($username); ?></span>
-        <a href="admin_logout.php" class="btn btn-danger btn-sm ms-3 "style="margin-right:50px">Đăng xuất</a>
+        <a href="admin_logout.php" class="btn btn-danger btn-sm ms-3" style="margin-right:50px">Đăng xuất</a>
     </div>
 </div>
 
@@ -191,7 +201,7 @@ function showContent(section) {
                 }
             });
             return;
-            case 'classdocumentManagement':
+        case 'classdocumentManagement':
             $.ajax({
                 url: '../../admin/pages/form_class_manager.php',
                 method: 'GET',
@@ -215,10 +225,7 @@ function showContent(section) {
                 }
             });
             return;
-
-
-
-            case 'lessondocumentManagement':
+        case 'lessondocumentManagement':
             $.ajax({
                 url: '../../admin/pages/form_vocabulary_manager.php',
                 method: 'GET',
@@ -232,7 +239,7 @@ function showContent(section) {
             return;
         case 'home':
         default:
-        $.ajax({
+            $.ajax({
                 url: '../../admin/pages/form_home_manager.php',
                 method: 'GET',
                 success: function(data) {

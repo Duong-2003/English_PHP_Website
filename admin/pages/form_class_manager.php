@@ -36,33 +36,53 @@ $result = $conn->query("SELECT class_id, class_name, description FROM classes");
 $classes = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 
-<div class="container">
-    <h2>Quản Lý Lớp Học</h2>
-   
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Lớp Học</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-semibold mb-4">Quản Lý Lớp Học</h2>
 
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Tên Lớp</th>
-                <th>Mô Tả</th>
-                <th>Hành Động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($classes as $class): ?>
-                <tr>
-                    <td><?php echo $class['class_id']; ?></td>
-                    <td><?php echo htmlspecialchars($class['class_name']); ?></td>
-                    <td><?php echo htmlspecialchars($class['description']); ?></td>
-                    <td>
-                    <a href="../../admin/includes/logic/add_class_manager.php" class="btn btn-success" onclick="editUser(<?php echo $user['user_id']; ?>)">Thêm</a>
-                        <a href="../../admin/includes/logic/edit_user_manager.php" class="btn btn-warning" onclick="editUser(<?php echo $user['user_id']; ?>)">Sửa</a>
-                        <a href="../../admin/includes/logic/delete_user_manager.php?key=user_id&table=users&datakey=<?php echo $user['user_id']; ?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">Xóa</a>
-                       
-                    </td>
+        <form method="POST" class="mb-4 bg-white p-4 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="class_name" class="block text-gray-700 text-sm font-bold mb-2">Tên Lớp:</label>
+                <input type="text" name="class_name" id="class_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Mô Tả:</label>
+                <textarea name="description" id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            </div>
+            <button type="submit" name="add_class" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Lớp</button>
+        </form>
+
+        <table class="min-w-full bg-white rounded-lg shadow-md mt-4">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="py-2 px-4 border-b">ID</th>
+                    <th class="py-2 px-4 border-b">Tên Lớp</th>
+                    <th class="py-2 px-4 border-b">Mô Tả</th>
+                    <th class="py-2 px-4 border-b">Hành Động</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                <?php foreach ($classes as $class): ?>
+                    <tr class="hover:bg-gray-100">
+                        <td class="py-2 px-4 border-b"><?php echo $class['class_id']; ?></td>
+                        <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($class['class_name']); ?></td>
+                        <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($class['description']); ?></td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="../../admin/includes/logic/edit_class_manager.php?class_id=<?php echo $class['class_id']; ?>" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
+                            <a href="?delete=<?php echo $class['class_id']; ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onclick="return confirm('Bạn có chắc chắn muốn xóa lớp này không?');">Xóa</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

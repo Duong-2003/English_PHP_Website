@@ -10,40 +10,38 @@ $vocabulary = $conn->query("SELECT id, word, choices, correct_choice, topic, ima
 <head>
     <meta charset="UTF-8">
     <title>Quản Lý Từ Vựng</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .image-container { display: flex; flex-wrap: wrap; }
-        .image-container img { width: 100px; height: 100px; object-fit: cover; margin: 5px; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2>Quản Lý Từ Vựng</h2>
-        <a href="../../admin/includes/logic/add_vocabulary_manager.php" class="btn btn-warning">Thêm Từ Vựng</a>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <h2 class="text-2xl font-semibold mb-4">Quản Lý Từ Vựng</h2>
+        <a href="../../admin/includes/logic/add_vocabulary_manager.php" class="mb-4 inline-block">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm Từ Vựng</button>
+        </a>
         <hr>
         <h3>Danh Sách Từ Vựng</h3>
         <form method="POST" action="../../admin/includes/logic/process_answer.php">
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Từ</th>
-                        <th>Lựa Chọn</th>
-                        <th>Đáp Án Đúng</th>
-                        <th>Chủ Đề</th>
-                        <th>Hình Ảnh</th>
-                        <th>Thao Tác</th>
+            <table class="min-w-full bg-white rounded-lg shadow-md mt-4">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="py-2 px-4 border-b">ID</th>
+                        <th class="py-2 px-4 border-b">Từ</th>
+                        <th class="py-2 px-4 border-b">Lựa Chọn</th>
+                        <th class="py-2 px-4 border-b">Đáp Án Đúng</th>
+                        <th class="py-2 px-4 border-b">Chủ Đề</th>
+                        <th class="py-2 px-4 border-b">Hình Ảnh</th>
+                        <th class="py-2 px-4 border-b">Thao Tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($word = $vocabulary->fetch_assoc()): ?>
-                        <tr>
-                            <td><?php echo $word['id']; ?></td>
-                            <td><?php echo htmlspecialchars($word['word']); ?></td>
-                            <td><?php echo htmlspecialchars($word['choices']); ?></td>
-                            <td><?php echo htmlspecialchars($word['correct_choice']); ?></td>
-                            <td><?php echo htmlspecialchars($word['topic']); ?></td>
-                            <td>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4 border-b"><?php echo $word['id']; ?></td>
+                            <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($word['word']); ?></td>
+                            <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($word['choices']); ?></td>
+                            <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($word['correct_choice']); ?></td>
+                            <td class="py-2 px-4 border-b"><?php echo htmlspecialchars($word['topic']); ?></td>
+                            <td class="py-2 px-4 border-b">
                                 <?php
                                 $imageDirectory = '../../admin/assets/images/';
                                 if (is_dir($imageDirectory)) {
@@ -52,12 +50,12 @@ $vocabulary = $conn->query("SELECT id, word, choices, correct_choice, topic, ima
                                         return preg_match('/\.(jpg|jpeg|png|gif)$/i', $file) && is_file($imageDirectory . $file);
                                     });
                                     ?>
-                                    <div class="image-container">
+                                    <div class="flex flex-wrap justify-center">
                                         <?php foreach ($imageFiles as $image): ?>
                                             <?php $imgSrc = '../../admin/assets/images/' . htmlspecialchars($image); ?>
-                                            <div style="display: flex; flex-direction: column; align-items: center;">
-                                                <img src="<?php echo $imgSrc; ?>" alt="Hình ảnh">
-                                                <input type="radio" name="correct_choice_<?php echo $word['id']; ?>" value="<?php echo htmlspecialchars($image); ?>" <?php if ($word['correct_choice'] == $image) echo 'checked'; ?>>
+                                            <div class="flex flex-col items-center m-2">
+                                                <img src="<?php echo $imgSrc; ?>" alt="Hình ảnh" class="w-24 h-24 object-cover rounded-lg">
+                                                <input type="radio" name="correct_choice_<?php echo $word['id']; ?>" value="<?php echo htmlspecialchars($image); ?>" <?php if ($word['correct_choice'] == $image) echo 'checked'; ?> class="mt-2">
                                             </div>
                                         <?php endforeach; ?>
                                     </div>
@@ -67,15 +65,15 @@ $vocabulary = $conn->query("SELECT id, word, choices, correct_choice, topic, ima
                                 }
                                 ?>
                             </td>
-                            <td>
-                                <a href="../../admin/includes/logic/edit_vocabulary_manager.php?id=<?php echo $word['id']; ?>" class="btn btn-warning">Sửa</a>
-                                <a href="../../admin/includes/logic/delete_vocabulary_manager.php?id=<?php echo $word['id']; ?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa từ vựng này không?');">Xóa</a>
+                            <td class="py-2 px-4 border-b">
+                                <a href="../../admin/includes/logic/edit_vocabulary_manager.php?id=<?php echo $word['id']; ?>" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2">Sửa</a>
+                                <a href="../../admin/includes/logic/delete_vocabulary_manager.php?id=<?php echo $word['id']; ?>" class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" onclick="return confirm('Bạn có chắc chắn muốn xóa từ vựng này không?');">Xóa</a>
                             </td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary">Lưu Đáp Án</button>
+            <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">Lưu Đáp Án</button>
         </form>
     </div>
 </body>
