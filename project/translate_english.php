@@ -45,6 +45,14 @@ include('../src/font/learn_english/header_english.php');
                 Lưu từ <i class="fa fa-save"></i>
             </button>
         </div>
+        
+        <!-- Button Nghe từ -->
+        <div class="mt-3 text-center">
+            <button id="listenButton" class="bg-yellow-500 text-white px-5 py-2 rounded-full hover:bg-yellow-600">
+                Nghe từ <i class="fa fa-volume-up"></i>
+            </button>
+        </div>
+
         <div class="mt-3 text-center">
             <button id="" class="bg-green-500 text-white px-5 py-2 rounded-full hover:bg-green-600">
              <a href="../project/save_word.php" class=" text-white px-4 py-2 rounded-lg ">🔙 Sang trang lưu từ</a>
@@ -58,7 +66,7 @@ include('../src/font/learn_english/header_english.php');
     </div>
 </div>
 
-<!-- JavaScript Dịch & Lưu từ -->
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("translateButton").addEventListener("click", async function () {
@@ -108,6 +116,20 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
             alert("⚠️ Không thể kết nối đến máy chủ!");
         }
+    });
+
+    // Nghe từ đã dịch bằng Web Speech API
+    document.getElementById("listenButton").addEventListener("click", function () {
+        const translatedText = document.getElementById("translationResult").innerText.trim();
+
+        if (!translatedText) {
+            alert("⚠️ Không có từ nào để phát âm!");
+            return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(translatedText);
+        utterance.lang = 'en-US'; // Ngôn ngữ phát âm
+        speechSynthesis.speak(utterance);
     });
 });
 </script>
