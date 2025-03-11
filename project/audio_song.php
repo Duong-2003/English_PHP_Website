@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,7 +44,6 @@
         }
     </style>
 </head>
-
 <body>
 
 <div class="container mt-5">
@@ -59,6 +57,8 @@
     <button id="stopSinging" class="btn btn-danger mt-3" disabled>Ngừng hát</button>
     <button id="replay" class="btn btn-secondary mt-3" disabled>Hát lại</button>
     <div id="score" class="mt-3">Điểm: 0</div>
+    <div id="detailedScore" class="mt-3"></div> <!-- Hiển thị điểm chi tiết -->
+    <div id="feedback" class="mt-3"></div> <!-- Phản hồi cho người dùng -->
 
     <div class="canvas-container">
         <canvas id="musicCanvas"></canvas>
@@ -66,13 +66,34 @@
     </div>
 
     <div class="lyrics" id="lyrics">
-        <p id="line1">Nỗi nhớ em trong đêm thật dài</p>
-        <p id="line2">Thêm lý do cho anh tồn tại</p>
-        <p id="line3">Để lại chạm vào bờ môi ấy dịu dàng</p>
-        <p id="line4">Lời thì thầm ngọt ngào bên tai</p>
-        <p id="line5">Ta mất nhau thật rồi em ơi</p>
-        <p id="line6">Tan vỡ hai cực đành chia đôi</p>
-        <p id="line7">Anh sẽ luôn ghi nhớ em trong từng tế bào</p>
+        <div class="line">
+            <p id="line1">Nỗi nhớ em trong đêm thật dài</p>
+            <button class="edit-btn" onclick="editLyrics('line1')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line2">Thêm lý do cho anh tồn tại</p>
+            <button class="edit-btn" onclick="editLyrics('line2')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line3">Để lại chạm vào bờ môi ấy dịu dàng</p>
+            <button class="edit-btn" onclick="editLyrics('line3')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line4">Lời thì thầm ngọt ngào bên tai</p>
+            <button class="edit-btn" onclick="editLyrics('line4')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line5">Ta mất nhau thật rồi em ơi</p>
+            <button class="edit-btn" onclick="editLyrics('line5')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line6">Tan vỡ hai cực đành chia đôi</p>
+            <button class="edit-btn" onclick="editLyrics('line6')">Sửa</button>
+        </div>
+        <div class="line">
+            <p id="line7">Anh sẽ luôn ghi nhớ em trong từng tế bào</p>
+            <button class="edit-btn" onclick="editLyrics('line7')">Sửa</button>
+        </div>
     </div>
 </div>
 
@@ -83,6 +104,8 @@
         const stopSingingButton = document.getElementById('stopSinging');
         const replayButton = document.getElementById('replay');
         const scoreDiv = document.getElementById('score');
+        const detailedScoreDiv = document.getElementById('detailedScore');
+        const feedbackDiv = document.getElementById('feedback');
         const musicCanvas = document.getElementById('musicCanvas');
         const voiceCanvas = document.getElementById('voiceCanvas');
         const ctxMusic = musicCanvas.getContext('2d');
@@ -92,18 +115,9 @@
         let audioChunks = [];
         let isSinging = false;
         let audioContext, analyser, musicAnalyser;
-        let totalScore = 0; // Tổng điểm
-        const noteScores = { "A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0, "G": 0 }; // Điểm cho từng nốt
-
-        const noteFrequencies = {
-            "A": 440.00,
-            "B": 493.88,
-            "C": 261.63,
-            "D": 293.66,
-            "E": 329.63,
-            "F": 349.23,
-            "G": 392.00
-        };
+        let totalScore = 0; 
+        const noteScores = { "A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0, "G": 0 };
+        const noteFrequencies = { "A": 440.00, "B": 493.88, "C": 261.63, "D": 293.66, "E": 329.63, "F": 349.23, "G": 392.00 };
 
         const lyricsTiming = [
             { text: "Nỗi nhớ em trong đêm thật dài", time: 0, note: "A" },
@@ -154,17 +168,19 @@
             startSingingButton.disabled = false;
             stopSingingButton.disabled = true;
             replayButton.disabled = false;
-
             scoreDiv.innerText = `Điểm: ${totalScore.toFixed(2)}`;
+            displayDetailedScore();
+            provideFeedback();
         });
 
         replayButton.addEventListener('click', () => {
-            video.currentTime = 0; // Đặt lại thời gian video
-            totalScore = 0; // Đặt lại điểm số
-            scoreDiv.innerText = 'Điểm: 0'; // Cập nhật điểm số hiển thị
-            noteScores = { "A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0, "G": 0 }; // Đặt lại điểm từng nốt
-            replayButton.disabled = true; // Vô hiệu hóa nút hát lại
-            startSingingButton.disabled = false; // Bật lại nút bắt đầu hát
+            video.currentTime = 0; 
+            totalScore = 0; 
+            scoreDiv.innerText = 'Điểm: 0'; 
+            detailedScoreDiv.innerHTML = ''; // Reset detailed score display
+            feedbackDiv.innerHTML = ''; // Reset feedback display
+            replayButton.disabled = true; 
+            startSingingButton.disabled = false; 
         });
 
         function update() {
@@ -174,12 +190,11 @@
                     const lineElement = document.getElementById(`line${index + 1}`);
                     if (currentTime >= line.time && currentTime < (line.time + 4)) {
                         lineElement.classList.add('highlight');
-                        // Tính điểm cho nốt hiện tại
                         const voiceFrequency = getAverageFrequency(analyser);
-                        if (noteScores[line.note] === 0) { // Chỉ tính điểm nếu chưa tính cho nốt này
+                        if (noteScores[line.note] === 0) { 
                             const score = calculateScoreForLine(line.note, voiceFrequency);
-                            noteScores[line.note] = score; // Lưu điểm cho nốt
-                            totalScore += score; // Cộng điểm vào tổng điểm
+                            noteScores[line.note] = score; 
+                            totalScore += score; 
                         }
                     } else {
                         lineElement.classList.remove('highlight');
@@ -229,6 +244,41 @@
             }
 
             return lineScore;
+        }
+
+        function displayDetailedScore() {
+            detailedScoreDiv.innerHTML = ''; // Reset detailed score display
+            for (const note in noteScores) {
+                const score = noteScores[note];
+                const scoreElement = document.createElement('p');
+                scoreElement.innerText = `Nốt ${note}: ${score.toFixed(2)}`;
+                detailedScoreDiv.appendChild(scoreElement);
+            }
+        }
+
+        function provideFeedback() {
+            feedbackDiv.innerHTML = ''; // Reset feedback display
+            lyricsTiming.forEach((line, index) => {
+                const lineElement = document.getElementById(`line${index + 1}`);
+                const voiceFrequency = getAverageFrequency(analyser); // Tính tần số giọng hát
+                const expectedFrequency = noteFrequencies[line.note];
+
+                if (Math.abs(voiceFrequency - expectedFrequency) > 30) { // Nếu sai sót lớn
+                    const feedbackElement = document.createElement('p');
+                    feedbackElement.innerText = `Dòng '${line.text}' hát chưa chính xác. Cố gắng điều chỉnh tần số gần ${expectedFrequency}Hz.`;
+                    feedbackDiv.appendChild(feedbackElement);
+                }
+            });
+        }
+
+        // Hàm chỉnh sửa lời bài hát
+        window.editLyrics = function(lineId) {
+            const lineElement = document.getElementById(lineId);
+            const originalText = lineElement.innerText;
+            const newText = prompt("Nhập lại lời bài hát:", originalText);
+            if (newText !== null) {
+                lineElement.innerText = newText; // Cập nhật lời bài hát
+            }
         }
     });
 </script>
