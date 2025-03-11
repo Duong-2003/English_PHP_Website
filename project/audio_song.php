@@ -1,207 +1,236 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaoke App with Accurate Scoring</title>
+    <title>Karaoke Học Hát và Chấm Điểm</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f0f8ff;
         }
+
         .lyrics {
             font-size: 24px;
             text-align: center;
             margin-top: 20px;
         }
+
         .highlight {
             color: red;
             font-weight: bold;
         }
+
         .canvas-container {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             margin-top: 20px;
         }
+
         canvas {
             width: 100%;
             max-width: 600px;
             height: 200px;
             border: 1px solid #000;
         }
+
+        video {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
+
 <body>
 
 <div class="container mt-5">
-    <h1 class="text-center">Karaoke App with Accurate Scoring</h1>
-    <audio id="audio" controls>
-        <source src="../admin/assets/audio/Pienso Viento - Casa Rosa.mp3" type="audio/mpeg">
-        Your browser does not support the audio tag.
-    </audio>
+    <h1 class="text-center">Karaoke Học Hát và Chấm Điểm</h1>
+    <video id="video" controls>
+        <source src="../../English_PHP_Website/admin/assets/audio/iLoveTik.com_TikTok_Media_001_5088ad13e10494070d6c90785e1d5005.mp4" type="video/mp4">
+        Trình duyệt của bạn không hỗ trợ thẻ video.
+    </video>
 
     <button id="startSinging" class="btn btn-primary mt-3">Bắt đầu hát</button>
     <button id="stopSinging" class="btn btn-danger mt-3" disabled>Ngừng hát</button>
-    <div id="score" class="mt-3"></div>
-
-    <div class="frequency-display">
-        <div id="musicFrequency">Tần số nhạc: 0 Hz</div>
-        <div id="voiceFrequency">Tần số giọng: 0 Hz</div>
-    </div>
+    <button id="replay" class="btn btn-secondary mt-3" disabled>Hát lại</button>
+    <div id="score" class="mt-3">Điểm: 0</div>
 
     <div class="canvas-container">
-        <canvas id="frequencyCanvas"></canvas>
+        <canvas id="musicCanvas"></canvas>
+        <canvas id="voiceCanvas"></canvas>
     </div>
 
     <div class="lyrics" id="lyrics">
-        <p id="line1">Lời bài hát 1</p>
-        <p id="line2">Lời bài hát 2</p>
-        <p id="line3">Lời bài hát 3</p>
-        <p id="line4">Lời bài hát 4</p>
+        <p id="line1">Nỗi nhớ em trong đêm thật dài</p>
+        <p id="line2">Thêm lý do cho anh tồn tại</p>
+        <p id="line3">Để lại chạm vào bờ môi ấy dịu dàng</p>
+        <p id="line4">Lời thì thầm ngọt ngào bên tai</p>
+        <p id="line5">Ta mất nhau thật rồi em ơi</p>
+        <p id="line6">Tan vỡ hai cực đành chia đôi</p>
+        <p id="line7">Anh sẽ luôn ghi nhớ em trong từng tế bào</p>
     </div>
 </div>
 
 <script>
-const audio = document.getElementById('audio');
-const startSingingButton = document.getElementById('startSinging');
-const stopSingingButton = document.getElementById('stopSinging');
-const scoreDiv = document.getElementById('score');
-const musicFrequencyDiv = document.getElementById('musicFrequency');
-const voiceFrequencyDiv = document.getElementById('voiceFrequency');
-const canvas = document.getElementById('frequencyCanvas');
-const ctx = canvas.getContext('2d');
+    document.addEventListener('DOMContentLoaded', async () => {
+        const video = document.getElementById('video');
+        const startSingingButton = document.getElementById('startSinging');
+        const stopSingingButton = document.getElementById('stopSinging');
+        const replayButton = document.getElementById('replay');
+        const scoreDiv = document.getElementById('score');
+        const musicCanvas = document.getElementById('musicCanvas');
+        const voiceCanvas = document.getElementById('voiceCanvas');
+        const ctxMusic = musicCanvas.getContext('2d');
+        const ctxVoice = voiceCanvas.getContext('2d');
 
-let mediaRecorder;
-let audioChunks = [];
-let isSinging = false;
-let audioContext, analyser, micStream, musicAnalyser;
+        let mediaRecorder;
+        let audioChunks = [];
+        let isSinging = false;
+        let audioContext, analyser, musicAnalyser;
+        let totalScore = 0; // Tổng điểm
+        const noteScores = { "A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0, "G": 0 }; // Điểm cho từng nốt
 
-// Tần số âm tiết của bài hát (cần thay đổi cho đúng)
-const noteFrequencies = [
-    { note: "Lời bài hát 1", frequency: 440 }, // Tần số cho âm tiết 1
-    { note: "Lời bài hát 2", frequency: 494 }, // Tần số cho âm tiết 2
-    { note: "Lời bài hát 3", frequency: 523 }, // Tần số cho âm tiết 3
-    { note: "Lời bài hát 4", frequency: 587 }  // Tần số cho âm tiết 4
-];
+        const noteFrequencies = {
+            "A": 440.00,
+            "B": 493.88,
+            "C": 261.63,
+            "D": 293.66,
+            "E": 329.63,
+            "F": 349.23,
+            "G": 392.00
+        };
 
-startSingingButton.addEventListener('click', async () => {
-    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(micStream);
-    
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    // Analyser cho micro
-    analyser = audioContext.createAnalyser();
-    const micSource = audioContext.createMediaStreamSource(micStream);
-    micSource.connect(analyser);
-    
-    // Analyser cho nhạc
-    musicAnalyser = audioContext.createAnalyser();
-    const musicSource = audioContext.createMediaElementSource(audio);
-    musicSource.connect(musicAnalyser);
-    musicSource.connect(audioContext.destination);
+        const lyricsTiming = [
+            { text: "Nỗi nhớ em trong đêm thật dài", time: 0, note: "A" },
+            { text: "Thêm lý do cho anh tồn tại", time: 3, note: "B" },
+            { text: "Để lại chạm vào bờ môi ấy dịu dàng", time: 7, note: "C" },
+            { text: "Lời thì thầm ngọt ngào bên tai", time: 11, note: "D" },
+            { text: "Ta mất nhau thật rồi em ơi", time: 15, note: "E" },
+            { text: "Tan vỡ hai cực đành chia đôi", time: 19, note: "F" },
+            { text: "Anh sẽ luôn ghi nhớ em trong từng tế bào", time: 23, note: "G" }
+        ];
 
-    mediaRecorder.ondataavailable = event => {
-        audioChunks.push(event.data);
-    };
+        startSingingButton.addEventListener('click', async () => {
+            const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(micStream);
 
-    mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        const audioElement = new Audio(audioUrl);
-        audioElement.play();
-        audioChunks = [];
-        calculateScore();
-    };
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const micSource = audioContext.createMediaStreamSource(micStream);
+            micSource.connect(analyser);
+            musicAnalyser = audioContext.createAnalyser();
+            const musicSource = audioContext.createMediaElementSource(video);
+            musicSource.connect(musicAnalyser);
+            musicSource.connect(audioContext.destination);
 
-    mediaRecorder.start();
-    audio.play();
-    isSinging = true;
-    startSingingButton.disabled = true;
-    stopSingingButton.disabled = false;
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
 
-    requestAnimationFrame(update);
-});
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                audioChunks = [];
+            };
 
-stopSingingButton.addEventListener('click', () => {
-    mediaRecorder.stop();
-    audio.pause();
-    isSinging = false;
-    startSingingButton.disabled = false;
-    stopSingingButton.disabled = true;
-});
+            mediaRecorder.start();
+            video.play();
+            isSinging = true;
+            startSingingButton.disabled = true;
+            stopSingingButton.disabled = false;
+            replayButton.disabled = true;
 
-const lyrics = [
-    { text: "Lời bài hát 1", time: 0 },
-    { text: "Lời bài hát 2", time: 3 },
-    { text: "Lời bài hát 3", time: 6 },
-    { text: "Lời bài hát 4", time: 9 }
-];
-
-function update() {
-    if (isSinging) {
-        const currentTime = audio.currentTime;
-        lyrics.forEach((line, index) => {
-            const lineElement = document.getElementById(`line${index + 1}`);
-            if (currentTime >= line.time && currentTime < (line.time + 3)) {
-                lineElement.classList.add('highlight');
-            } else {
-                lineElement.classList.remove('highlight');
-            }
+            requestAnimationFrame(update);
         });
-        
-        // Phân tích tần số âm thanh từ nhạc
-        const musicDataArray = new Uint8Array(musicAnalyser.frequencyBinCount);
-        musicAnalyser.getByteFrequencyData(musicDataArray);
-        const musicFrequency = getAverageFrequency(musicDataArray);
-        musicFrequencyDiv.innerText = `Tần số nhạc: ${musicFrequency} Hz`;
 
-        // Phân tích tần số âm thanh từ micro
-        const voiceDataArray = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(voiceDataArray);
-        const voiceFrequency = getAverageFrequency(voiceDataArray);
-        voiceFrequencyDiv.innerText = `Tần số giọng: ${voiceFrequency} Hz`;
+        stopSingingButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            video.pause();
+            isSinging = false;
+            startSingingButton.disabled = false;
+            stopSingingButton.disabled = true;
+            replayButton.disabled = false;
 
-        // Vẽ biểu đồ tần số
-        drawFrequencyBars(voiceDataArray);
+            scoreDiv.innerText = `Điểm: ${totalScore.toFixed(2)}`;
+        });
 
-        // Tính điểm dựa trên tần số giọng hát và âm tiết
-        const score = calculateScore(voiceFrequency);
-        scoreDiv.innerText = `Điểm hát: ${score}`;
-    }
-    requestAnimationFrame(update);
-}
+        replayButton.addEventListener('click', () => {
+            video.currentTime = 0; // Đặt lại thời gian video
+            totalScore = 0; // Đặt lại điểm số
+            scoreDiv.innerText = 'Điểm: 0'; // Cập nhật điểm số hiển thị
+            noteScores = { "A": 0, "B": 0, "C": 0, "D": 0, "E": 0, "F": 0, "G": 0 }; // Đặt lại điểm từng nốt
+            replayButton.disabled = true; // Vô hiệu hóa nút hát lại
+            startSingingButton.disabled = false; // Bật lại nút bắt đầu hát
+        });
 
-function getAverageFrequency(dataArray) {
-    const sum = dataArray.reduce((acc, val) => acc + val, 0);
-    return (sum / dataArray.length).toFixed(2);
-}
+        function update() {
+            if (isSinging) {
+                const currentTime = video.currentTime;
+                lyricsTiming.forEach((line, index) => {
+                    const lineElement = document.getElementById(`line${index + 1}`);
+                    if (currentTime >= line.time && currentTime < (line.time + 4)) {
+                        lineElement.classList.add('highlight');
+                        // Tính điểm cho nốt hiện tại
+                        const voiceFrequency = getAverageFrequency(analyser);
+                        if (noteScores[line.note] === 0) { // Chỉ tính điểm nếu chưa tính cho nốt này
+                            const score = calculateScoreForLine(line.note, voiceFrequency);
+                            noteScores[line.note] = score; // Lưu điểm cho nốt
+                            totalScore += score; // Cộng điểm vào tổng điểm
+                        }
+                    } else {
+                        lineElement.classList.remove('highlight');
+                    }
+                });
 
-function drawFrequencyBars(dataArray) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const barWidth = (canvas.width / dataArray.length) * 2.5;
-    let barHeight;
+                const musicDataArray = new Uint8Array(musicAnalyser.frequencyBinCount);
+                musicAnalyser.getByteFrequencyData(musicDataArray);
+                drawFrequencyBars(ctxMusic, musicDataArray);
 
-    for (let i = 0; i < dataArray.length; i++) {
-        barHeight = dataArray[i] / 2; // Tỉ lệ để bar không quá cao
-        ctx.fillStyle = `rgb(${barHeight + 100},50,50)`;
-        ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth, barHeight);
-    }
-}
+                const voiceDataArray = new Uint8Array(analyser.frequencyBinCount);
+                analyser.getByteFrequencyData(voiceDataArray);
+                drawFrequencyBars(ctxVoice, voiceDataArray);
+            }
+            requestAnimationFrame(update);
+        }
 
-function calculateScore(voiceFrequency) {
-    let score = 0;
-    const threshold = 50; // Ngưỡng để tính điểm
+        function getAverageFrequency(analyser) {
+            const dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(dataArray);
+            const maxIndex = dataArray.indexOf(Math.max(...dataArray));
+            const frequency = maxIndex * (audioContext.sampleRate / 2) / dataArray.length;
+            return frequency.toFixed(2);
+        }
 
-    noteFrequencies.forEach(note => {
-        // So sánh tần số giọng hát với tần số của âm tiết
-        if (Math.abs(note.frequency - voiceFrequency) < threshold) {
-            score += 25; // Tăng điểm cho mỗi âm tiết gần nhau
+        function drawFrequencyBars(ctx, dataArray) {
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            const barWidth = (ctx.canvas.width / dataArray.length) * 2.5;
+            for (let i = 0; i < dataArray.length; i++) {
+                const barHeight = dataArray[i] / 2;
+                ctx.fillStyle = `rgb(${barHeight + 100},50,50)`;
+                ctx.fillRect(i * barWidth, ctx.canvas.height - barHeight, barWidth, barHeight);
+            }
+        }
+
+        function calculateScoreForLine(note, voiceFrequency) {
+            const targetFrequency = noteFrequencies[note];
+            const range = 30;
+            let lineScore = 0;
+
+            if (voiceFrequency >= (targetFrequency - range) && voiceFrequency <= (targetFrequency + range)) {
+                lineScore = 14.29; // Nốt hoàn hảo
+            } else if (voiceFrequency >= (targetFrequency - 2 * range) && voiceFrequency < (targetFrequency - range)) {
+                lineScore = 7.14; // Nốt yếu
+            } else if (voiceFrequency > (targetFrequency + range) && voiceFrequency <= (targetFrequency + 2 * range)) {
+                lineScore = -7.14; // Nốt vượt mức
+            }
+
+            return lineScore;
         }
     });
-
-    return Math.min(score, 100); // Giới hạn điểm số tối đa là 100
-}
 </script>
 
 </body>

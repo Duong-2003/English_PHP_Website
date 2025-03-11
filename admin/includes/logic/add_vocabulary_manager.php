@@ -27,19 +27,28 @@ if (isset($_GET['id'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $word = $_POST['word'];
-    $choices = trim($_POST['choices']); // Loại bỏ khoảng trắng thừa
+    $choices = trim($_POST['choices']);
     $correct_choice = isset($_POST['correct_choice']) ? $_POST['correct_choice'] : '';
     $topic = $_POST['topic'];
 
-    // Kiểm tra tính hợp lệ của dữ liệu choices (ví dụ: kiểm tra định dạng)
+    // Kiểm tra nếu choices không hợp lệ và thông báo cho người dùng
     if (empty($choices)) {
-        $choices = NULL; // Cho phép giá trị NULL nếu cần
+        echo "<script>alert('Vui lòng nhập lựa chọn.');</script>";
+        return; // Dừng thực hiện nếu không có lựa chọn
+    }
+
+    // Kiểm tra xem có ít nhất một lựa chọn hợp lệ
+    $choices_array = explode(',', $choices);
+    if (count($choices_array) < 1 || array_filter($choices_array) === []) {
+        echo "<script>alert('Vui lòng nhập ít nhất một lựa chọn hợp lệ.');</script>";
+        return; // Dừng thực hiện nếu không có lựa chọn
     }
 
     $uploaded_images = [];
+    $target_dir = '../../../admin/assets/images/'; // Đường dẫn để lưu hình ảnh
+
     for ($i = 0; $i < 4; $i++) {
         if (isset($_FILES['image_upload'][$i]) && $_FILES['image_upload'][$i]['error'] === UPLOAD_ERR_OK) {
-            $target_dir = "uploads/";
             $target_file = $target_dir . basename($_FILES["image_upload"][$i]["name"]);
             if (move_uploaded_file($_FILES["image_upload"][$i]["tmp_name"], $target_file)) {
                 $uploaded_images[] = $target_file;
