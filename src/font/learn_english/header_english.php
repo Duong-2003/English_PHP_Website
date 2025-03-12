@@ -22,7 +22,7 @@
 
     .nav-link:hover {
         color: #ffffff; /* Màu chữ khi hover */
-        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 4px 15px rgb(89, 209, 149);
         background-color:rgb(89, 209, 149); /* Màu nền khi hover */
     }
 
@@ -74,9 +74,9 @@ if (isset($_SESSION['username'])) {
 
             <nav class="d-none d-lg-flex gap-3">
                 <div class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" id="otherDropdown" role="button" aria-haspopup="true"
+                <a class="nav-link dropdown-toggle" id="otherDropdown" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false" title="Khác">
-                        Start Learn English
+                       Start Learn English
                     </a>
                     <div class="dropdown-menu" aria-labelledby="otherDropdown">
                         <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning
@@ -136,8 +136,8 @@ if (isset($_SESSION['username'])) {
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="../project/profile_english.php">Profile</a></li>
-                    <li><a class="dropdown-item" href="../project/setting_english.php">Settings</a></li>
-                    <li><a class="dropdown-item" href="../project/reset_pass.php">Reset Password</a></li>
+                    <!-- <li><a class="dropdown-item" href="../project/setting_english.php">Settings</a></li> -->
+                    <!-- <li><a class="dropdown-item" href="../project/reset_pass.php">Reset Password</a></li> -->
                     <li><a class="dropdown-item" href="../project/logout.php">Logout</a></li>
                 </ul>
 

@@ -98,12 +98,21 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
         .nav-item {
             margin-bottom: 10px;
         }
+        .sidebar {
+    /* Thêm các thuộc tính khác của sidebar nếu cần */
+}
+
+.sidebar-title {
+    text-align: center; /* Căn giữa văn bản */
+    font-size: 1.5rem; /* Thay đổi kích thước chữ */
+    margin-bottom: 1rem; /* Khoảng cách dưới tiêu đề */
+}
     </style>
 </head>
 <body>
 
 <div class="sidebar">
-    <h5>Quản Lý</h5>
+    <h5 class="sidebar-title">Quản Lý</h5>
     <ul class="nav flex-column">
         <li class="nav-item">
             <a class="nav-link active" href="#" onclick="showContent('home')">

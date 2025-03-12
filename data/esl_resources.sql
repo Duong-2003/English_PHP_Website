@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 08, 2025 lúc 04:09 PM
+-- Thời gian đã tạo: Th3 12, 2025 lúc 03:31 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -62,10 +62,8 @@ CREATE TABLE `documents` (
 --
 
 INSERT INTO `documents` (`id`, `title`, `file_name`, `file_path`, `uploaded_at`, `user_id`) VALUES
-(1, 'eeee', 'Key - CONSONANTS - new.pdf', '../admin/assets/uploads/Key - CONSONANTS - new.pdf', '2025-03-08 10:34:53', 18),
-(2, 'dd', 'Pronunciation Lesson - new.pdf', '../admin/assets/uploads/Pronunciation Lesson - new.pdf', '2025-03-08 10:41:48', 18),
-(3, 'aaaa', 'Nhóm-2_520401B.pdf', '../admin/assets/uploads/Nhóm-2_520401B.pdf', '2025-03-08 11:24:35', 17),
-(8, 'aaa', '14_NguyenVanCuong_CTL601.pdf', '../admin/assets/uploads/14_NguyenVanCuong_CTL601.pdf', '2025-03-08 11:37:58', 18);
+(1, 'Key - CONSONANTS - new.pdf', 'Key - CONSONANTS - new.pdf', '../admin/assets/uploads/Key - CONSONANTS - new.pdf', '2025-03-08 10:34:53', 18),
+(2, 'Pronunciation Lesson - new.pdf', 'Pronunciation Lesson - new.pdf', '../admin/assets/uploads/Pronunciation Lesson - new.pdf', '2025-03-08 10:41:48', 18);
 
 -- --------------------------------------------------------
 
@@ -170,7 +168,9 @@ CREATE TABLE `vocabulary` (
 
 INSERT INTO `vocabulary` (`id`, `word`, `choices`, `correct_choice`, `topic`, `image`) VALUES
 (5, 'Dog', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'dog.jpg', 'animals', ''),
-(22, 'cat', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'cat.jpg', 'animals', '');
+(22, 'Cat', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'cat.jpg', 'animals', ''),
+(23, 'Woft', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'wolf.jpg', 'animals', ''),
+(24, 'Mouse', '[\"m\\u00e8o , ch\\u00f3 , chu\\u1ed9t , s\\u00f3i\"]', 'mouse.jpg', 'animals', '');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -266,7 +266,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `vocabulary`
 --
 ALTER TABLE `vocabulary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
