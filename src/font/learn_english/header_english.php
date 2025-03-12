@@ -81,7 +81,7 @@ if (isset($_SESSION['username'])) {
                     <div class="dropdown-menu" aria-labelledby="otherDropdown">
                         <a class="dropdown-item" href="../project/learn_english.php" title="Learn Vocabulary">Learning
                             Vocabulary</a>
-                            <es class="dropdown-item" href="" title="Singing and Videos">Games Learning English</a>
+                            <a class="dropdown-item" href="../project/learn_heart.php" title="Learn">Games Learning English</a>
 
 
 
@@ -92,7 +92,7 @@ if (isset($_SESSION['username'])) {
 
              
                 <a class="dropdown-item" href="../project/audio_collection_page.php"
-                title="Singing and Videos">Singing With Videos</a>
+                title="Singing and Videos">Sing With Videos</a>
 
                 <a href="../project/document_english.php" class="nav-link" title="Tài liệu">Document</a>
 

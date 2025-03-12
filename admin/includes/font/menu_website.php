@@ -140,8 +140,13 @@ $avatar = $_SESSION['avatar'] ?? '../../public/images/icons/ic_default_ava_male.
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" onclick="showContent('lessondocumentManagement')">
+            <a class="nav-link" href="#" onclick="showContent('vabubularydocumentManagement')">
                 <i class="fas fa-file-alt"></i> Nội dung tài liệu
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showContent('flashcardManagement')">
+                <i class="fas fa-file-alt"></i> Quản lý từ mới
             </a>
         </li>
     </ul>
@@ -234,9 +239,22 @@ function showContent(section) {
                 }
             });
             return;
-        case 'lessondocumentManagement':
+            case 'vabubularydocumentManagement':
             $.ajax({
                 url: '../../admin/pages/form_vocabulary_manager.php',
+                method: 'GET',
+                success: function(data) {
+                    contentArea.innerHTML = data;
+                },
+                error: function() {
+                    contentArea.innerHTML = '<p>Không thể tải nội dung.</p>';
+                }
+            });
+            return;
+        
+            case 'flashcardManagement':
+            $.ajax({
+                url: '../../admin/pages/form_flashcard_manager.php',
                 method: 'GET',
                 success: function(data) {
                     contentArea.innerHTML = data;
