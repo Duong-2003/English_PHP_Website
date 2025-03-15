@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 12, 2025 lúc 03:31 AM
+-- Thời gian đã tạo: Th3 15, 2025 lúc 02:36 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -68,6 +68,29 @@ INSERT INTO `documents` (`id`, `title`, `file_name`, `file_path`, `uploaded_at`,
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `flashcards`
+--
+
+CREATE TABLE `flashcards` (
+  `id` int(11) NOT NULL,
+  `word` varchar(255) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `topic` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `flashcards`
+--
+
+INSERT INTO `flashcards` (`id`, `word`, `image`, `topic`) VALUES
+(1, 'Dog', '../../../admin/assets/images/dog.jpg', 'animals'),
+(5, 'Woft', '../../../admin/assets/images/wolf.jpg', 'animals'),
+(6, 'cat', '../../../admin/assets/images/cat.jpg', 'animals'),
+(7, 'Mouse', '../../../admin/assets/images/mouse.jpg', 'animals');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `saved_words`
 --
 
@@ -84,7 +107,8 @@ CREATE TABLE `saved_words` (
 
 INSERT INTO `saved_words` (`id`, `original`, `translated`, `created_at`) VALUES
 (13, 'dịch', 'pandemic', '2025-02-27 15:31:07'),
-(15, 'Tên tôi là Dương', 'My name is Duong', '2025-03-02 13:35:07');
+(15, 'Tên tôi là Dương', 'My name is Duong', '2025-03-02 13:35:07'),
+(17, 'nhà', 'home', '2025-03-12 02:35:57');
 
 -- --------------------------------------------------------
 
@@ -144,7 +168,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `created_at`, `last_login`, `profile_picture`, `status`, `role`) VALUES
-(17, 'admin', '$2y$10$Hx6L0zBa5CPNuK1DNC3DdeHI7egVaTqjlrNkFSA2LCqHB7WjzLpM2', 'admin@gmail.com', '2025-02-26 16:30:08', '2025-03-08 10:13:30', NULL, 'active', 'teacher'),
+(17, 'admin', '$2y$10$Hx6L0zBa5CPNuK1DNC3DdeHI7egVaTqjlrNkFSA2LCqHB7WjzLpM2', 'admin@gmail.com', '2025-02-26 16:30:08', '2025-03-15 12:24:35', NULL, 'active', 'teacher'),
 (18, 'student', '$2y$10$wwcU8/WsHqTkcxYOxbZft.dlRb0Fihr4sRuhjGPNMdvshgDMIwOiy', 'student1@gmail.com', '2025-03-02 14:12:11', '2025-03-06 11:20:56', NULL, 'active', 'student');
 
 -- --------------------------------------------------------
@@ -188,6 +212,12 @@ ALTER TABLE `classes`
 ALTER TABLE `documents`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_user` (`user_id`);
+
+--
+-- Chỉ mục cho bảng `flashcards`
+--
+ALTER TABLE `flashcards`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `saved_words`
@@ -236,13 +266,19 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT cho bảng `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
+-- AUTO_INCREMENT cho bảng `flashcards`
+--
+ALTER TABLE `flashcards`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `saved_words`
 --
 ALTER TABLE `saved_words`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `scores`

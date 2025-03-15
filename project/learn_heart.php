@@ -16,13 +16,14 @@
 
     <style>        
       
+      
 
         .flashcard {
-            width: 300px;
-            height: 200px;
+            width: 400px; /* Chiều rộng thẻ flashcard */
+            height: 300px; /* Chiều cao thẻ flashcard */
             perspective: 1000px;
-            margin: 0 auto;
             margin-bottom: 20px;
+            position: relative; /* Để sử dụng cho các phần tử con */
         }
 
         .front, .back {
@@ -36,19 +37,20 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             background-color: white;
+            transition: transform 0.6s; /* Hiệu ứng chuyển đổi */
         }
 
         .front {
-            background-color: #007bff;
-            color: white;
+            background-color: #007bff; /* Màu nền cho mặt trước */
+            color: white; /* Màu chữ */
             font-size: 24px;
+            margin: 150px;
         }
 
         .back {
             transform: rotateY(180deg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #ffc300; /* Màu nền cho mặt sau */
+            margin: 150px;
         }
 
         .flashcard.show-back .front {
