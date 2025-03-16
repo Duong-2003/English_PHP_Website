@@ -14,7 +14,7 @@ function getYoutubeEmbedUrl($url) {
             return "https://www.youtube.com/embed/" . $query['v'];
         }
     }
-    return $url;
+    return null; // Trả về null nếu không phải là URL hợp lệ
 }
 
 $sql = "SELECT * FROM songs";
@@ -33,12 +33,21 @@ if ($result->num_rows > 0) {
     <meta charset="UTF-8">
     <title>Quản lý Video</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .lyrics-container {
+            max-height: 50px;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+        .lyrics-container.expanded {
+            max-height: 200px; /* Thay đổi chiều cao khi mở rộng */
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto p-4">
         <h2 class="text-2xl font-semibold mt-4">Quản lý Video</h2>
         <hr>
-
         <h3>Danh sách bài hát và video</h3>
         <a href="../../admin/includes/logic/add_audio_manager.php" class="mb-4 inline-block">
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Thêm bài hát</button>
@@ -61,7 +70,11 @@ if ($result->num_rows > 0) {
                         <td class="py-2 px-4 border-b">
                             <?php if (!empty($song['video_file'])): ?>
                                 <?php $embedUrl = getYoutubeEmbedUrl($song['video_file']); ?>
-                                <iframe width="500" height="281" src="<?php echo $embedUrl; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full"></iframe>
+                                <?php if ($embedUrl): ?>
+                                    <iframe width="500" height="281" src="<?php echo $embedUrl; ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full"></iframe>
+                                <?php else: ?>
+                                    <p>Video không hợp lệ</p>
+                                <?php endif; ?>
                             <?php else: ?>
                                 <p>Không có video</p>
                             <?php endif; ?>
@@ -71,12 +84,7 @@ if ($result->num_rows > 0) {
                                 <?php
                                 $maxLength = 100;
                                 $lyrics = $song['lyrics'];
-                                if (strlen($lyrics) > $maxLength) {
-                                    $shortLyrics = substr($lyrics, 0, $maxLength) . '...';
-                                    echo nl2br(htmlspecialchars($shortLyrics));
-                                } else {
-                                    echo nl2br(htmlspecialchars($lyrics));
-                                }
+                                echo nl2br(htmlspecialchars(strlen($lyrics) > $maxLength ? substr($lyrics, 0, $maxLength) . '...' : $lyrics));
                                 ?>
                             </div>
                             <?php if (strlen($song['lyrics']) > $maxLength): ?>
@@ -98,11 +106,7 @@ if ($result->num_rows > 0) {
             const lyricsContainer = document.getElementById('lyrics-' + songId);
             lyricsContainer.classList.toggle('expanded');
             const showMore = lyricsContainer.nextElementSibling;
-            if (lyricsContainer.classList.contains('expanded')) {
-                showMore.textContent = 'Thu gọn';
-            } else {
-                showMore.textContent = 'Xem thêm';
-            }
+            showMore.textContent = lyricsContainer.classList.contains('expanded') ? 'Thu gọn' : 'Xem thêm';
         }
     </script>
 </body>
