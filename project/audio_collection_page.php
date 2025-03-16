@@ -24,10 +24,8 @@
             $songs[] = $row;
         }
     }
-    ?>
+?>
 <body>
-   
-    
     <h1 class="text-center mt-4">Danh sách bài hát</h1>
     <div class="container mt-4">
         <div class="row">
