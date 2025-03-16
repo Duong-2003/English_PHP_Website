@@ -12,36 +12,42 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <?php 
-session_start();
+    session_start();
+    include('../config/conn.php'); // Kết nối cơ sở dữ liệu
+    include('../src/font/learn_english/header_english.php');
 
-include('../config/conn.php'); // Kết nối cơ sở dữ liệu
-include('../src/font/learn_english/header_english.php');
-
-
-
-
-$sql = "SELECT * FROM songs"; 
-$result = $conn->query($sql);
-$songs = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $songs[] = $row;
+    $sql = "SELECT * FROM songs"; 
+    $result = $conn->query($sql);
+    $songs = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $songs[] = $row;
+        }
     }
-}
-?>
-
-
+    ?>
 <body>
+   
+    
     <h1 class="text-center mt-4">Danh sách bài hát</h1>
-    <div class="container">
-        <ul class="list-group">
-            <?php foreach ($songs as $song): ?>
-                <li class="list-group-item">
-                    <a href="../project/audio_song.php?id=<?php echo $song['id']; ?>">
-                        🎤 <?php echo htmlspecialchars($song["title"]); ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+    <div class="container mt-4">
+        <div class="row">
+            <?php if (count($songs) > 0): ?>
+                <?php foreach ($songs as $song): ?>
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo htmlspecialchars($song["title"]); ?></h5>
+                                <a href="../project/audio_song.php?id=<?php echo $song['id']; ?>" class="btn btn-primary">Nghe bài hát</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p class="text-center">Không có bài hát nào để hiển thị.</p>
+            <?php endif; ?>
+        </div>
     </div>
 </body>
+</html>
+
+<?php $conn->close(); ?>
