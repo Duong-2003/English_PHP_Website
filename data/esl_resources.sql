@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 15, 2025 lúc 02:36 PM
+-- Thời gian đã tạo: Th3 16, 2025 lúc 02:55 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -85,7 +85,7 @@ CREATE TABLE `flashcards` (
 INSERT INTO `flashcards` (`id`, `word`, `image`, `topic`) VALUES
 (1, 'Dog', '../../../admin/assets/images/dog.jpg', 'animals'),
 (5, 'Woft', '../../../admin/assets/images/wolf.jpg', 'animals'),
-(6, 'cat', '../../../admin/assets/images/cat.jpg', 'animals'),
+(6, 'Cat', '../../../admin/assets/images/cat.jpg', 'animals'),
 (7, 'Mouse', '../../../admin/assets/images/mouse.jpg', 'animals');
 
 -- --------------------------------------------------------
@@ -135,15 +135,19 @@ CREATE TABLE `songs` (
   `title` varchar(255) NOT NULL,
   `video_file` varchar(255) NOT NULL,
   `audio_file` varchar(255) NOT NULL,
-  `lyrics` text NOT NULL
+  `lyrics` text NOT NULL,
+  `comparison_lyrics` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `songs`
 --
 
-INSERT INTO `songs` (`id`, `title`, `video_file`, `audio_file`, `lyrics`) VALUES
-(6, 'My Love\r\nBài hát của Westlife ‧ 2000\r\n', 'https://youtu.be/c6o4nv4-oz4?t=1', 'https://youtu.be/c6o4nv4-oz4?t=1', 'Lyrics\r\n\r\nMy whole world changed from the moment I met you\r\nAnd it would never be the same\r\nFelt like I knew that I always love you\r\nFrom the moment I heard your name\r\n\r\nEverything was perfect, I knew this love was worth it\r\nOur own miracle in the making\r\nUntil this world stops turning\r\nI\'ll still be here waiting and waiting to make that vow that I\'ll\r\n\r\nI\'ll be by your side \'til the day I die\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\nSomething old, something new\r\nSomething borrowed, something blue\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\n\r\nSmiles by the thousands, your tears have all dried out\r\n\'Cause I won\'t see you cry again\r\nThrow pennies in the fountain, and look at what comes out\r\nSometimes wishes do come true\r\nNow everything is perfect, I know this love is worth it.\r\nOur own miracle in the making\r\n\r\nUntil this world stops turning\r\nI\'ll still be here waiting and waiting to make that vow that I\'ll\r\n\r\nI\'ll be by your side \'til the day I die\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\nSomething old, something new\r\nSomething borrowed, something blue\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\n\r\nAlways better than worse, protect you from the hurt\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\nI do love you, yes I do love you\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\n\'Cause I love you, love you\r\n\r\nI\'ll be by your side \'til the day I die\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\nSomething old, something new\r\nSomething borrowed, something blue\r\nI\'ll be waiting \'til I hear you say, \"I do\"\r\nWe\'re shining like a diamond, just look at us now\r\nI wanna hear you say, \"I do\"');
+INSERT INTO `songs` (`id`, `title`, `video_file`, `audio_file`, `lyrics`, `comparison_lyrics`) VALUES
+(9, 'Once I Caught a Fish Alive', 'https://youtu.be/BkDLhJzOx2A', 'https://www.example.com/twinkle.mp3', 'One, Two, Three, Four, Five,\r\nOnce I caught a fish alive,\r\nSix, Seven, Eight, Nine, Ten,\r\nThen I threw him back again.\r\nWhy did you let him go?\r\nBecause he bit my finger so.\r\nWhich finger did he bite?\r\nThis little finger on my right.', 'One, Two, Three, Four, Five,\r\nOnce I caught a fish alive,\r\nSix, Seven, Eight, Nine, Ten,\r\nThen I threw him back again.\r\nWhy did you let him go?\r\nBecause he bit my finger so.\r\nWhich finger did he bite?\r\nThis little finger on my right.'),
+(10, 'Twinkle Twinkle Little Star', '', 'https://www.example.com/twinkle.mp3', 'Twinkle, twinkle, little star, How I wonder what you are!', 'twinkle twinkle little star how i wonder what you are'),
+(11, 'Let It Be', 'https://youtu.be/Fplyh5t_4S4', 'https://www.example.com/twinkle.mp3', 'When I find myself in times of trouble\r\nMother Mary comes to me\r\nSpeaking words of wisdom, let it be\r\nAnd in my hour of darkness\r\nShe is standing right in front of me\r\nSpeaking words of wisdom, let it be\r\nLet it be, let it be\r\nLet it be, let it be\r\nWhisper words of wisdom, let it be', 'When I find myself in times of trouble\r\nMother Mary comes to me\r\nSpeaking words of wisdom, let it be\r\nAnd in my hour of darkness\r\nShe is standing right in front of me\r\nSpeaking words of wisdom, let it be\r\nLet it be, let it be\r\nLet it be, let it be\r\nWhisper words of wisdom, let it be'),
+(12, 'Let It Go', 'https://www.youtube.com/watch?v=moSFlvxnbgk', 'https://www.example.com/let_it_go.mp3', 'The snow glows white on the mountain tonight, not a footprint to be seen...', NULL);
 
 -- --------------------------------------------------------
 
@@ -290,7 +294,7 @@ ALTER TABLE `scores`
 -- AUTO_INCREMENT cho bảng `songs`
 --
 ALTER TABLE `songs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
