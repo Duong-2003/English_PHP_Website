@@ -96,109 +96,132 @@ function getYoutubeEmbedUrl($url) {
 }
 ?>
 
-<body>
-    
-    <div>
+<>
+    <div class="container">
         <h1><?php echo htmlspecialchars($song['title']); ?></h1>
-        <audio controls>
-            <source src="<?php echo htmlspecialchars($song['audio_file']); ?>" type="audio/mpeg">
-            Your browser does not support the audio tag.
-        </audio>
-        <?php if (!empty($song['video_file'])): ?>
-            <iframe width="500" height="281" src="<?php echo getYoutubeEmbedUrl($song['video_file']); ?>" frameborder="0" allowfullscreen class="w-full"></iframe>
-        <?php else: ?>
-            <p>Không có video</p>
-        <?php endif; ?>
-        
-        <div id="lyrics">
-            <h3>Lời bài hát:</h3>
-            <p id="lyrics-text"><?php echo nl2br(htmlspecialchars($song['lyrics'])); ?></p>
+        <div class="row">
+            <div class="col-md-6">
+                <audio controls>
+                    <source src="<?php echo htmlspecialchars($song['audio_file']); ?>" type="audio/mpeg">
+                    Your browser does not support the audio tag.
+                </audio>
+                <?php if (!empty($song['video_file'])): ?>
+                    <iframe width="100%" height="281" src="<?php echo getYoutubeEmbedUrl($song['video_file']); ?>" frameborder="0" allowfullscreen></iframe>
+                <?php else: ?>
+                    <p>Không có video</p>
+                <?php endif; ?>
+            </div>
+            <div class="col-md-6">
+                <div id="lyrics">
+                    <h3>Lời bài hát:</h3>
+                    <p id="lyrics-text"><?php echo nl2br(htmlspecialchars($song['lyrics'])); ?></p>
+                </div>
+                <button class="speak" data-lyrics="<?php echo addslashes($songLyrics); ?>" data-comparison="<?php echo addslashes($comparisonLyrics); ?>">Bắt đầu hát</button>
+                <p id="textarea">Kết quả sẽ hiển thị ở đây...</p>
+                <p id="score"></p>
+            </div>
         </div>
-        
-        <button class="speak" data-lyrics="<?php echo addslashes($songLyrics); ?>" data-comparison="<?php echo addslashes($comparisonLyrics); ?>">Bắt đầu hát</button>
-        <p id="textarea">Kết quả sẽ hiển thị ở đây...</p>
-        <p id="score"></p>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var speakButton = document.querySelector('.speak');
-            var songLyrics = speakButton.getAttribute('data-lyrics').toLowerCase();
-            var comparisonLyrics = speakButton.getAttribute('data-comparison').toLowerCase();
-            var textarea = document.getElementById('textarea');
-            var scoreDisplay = document.getElementById('score');
+       document.addEventListener('DOMContentLoaded', function () {
+    var speakButton = document.querySelector('.speak');
+    var songLyrics = speakButton.getAttribute('data-lyrics').toLowerCase();
+    var comparisonLyrics = speakButton.getAttribute('data-comparison').toLowerCase();
+    var textarea = document.getElementById('textarea');
+    var scoreDisplay = document.getElementById('score');
+    var audio = document.querySelector('audio');
+    var video = document.querySelector('iframe');
 
-            speakButton.addEventListener('click', function () {
-                var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    textarea.innerHTML = 'Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.';
-                    return;
-                }
-
-                var recognition = new SpeechRecognition();
-                recognition.lang = 'en-US';
-                
-                recognition.start();
-                textarea.innerHTML = 'Đang ghi âm...';
-
-                recognition.onresult = function (e) {
-                    var transcript = e.results[0][0].transcript;
-                    textarea.innerHTML = transcript;
-                    evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay);
-                };
-
-                recognition.onerror = function (e) {
-                    textarea.innerHTML = 'Lỗi: ' + e.error;
-                };
-
-                recognition.onend = function() {
-                    textarea.innerHTML += '<br>Ghi âm đã dừng.';
-                };
-            });
-            function evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay) {
-    // Chuẩn hóa văn bản: bỏ dấu câu, viết thường, loại bỏ khoảng trắng thừa
-    function cleanText(text) {
-        return text.toLowerCase()
-            .replace(/[.,!?;:()]/g, '') // Loại bỏ dấu câu
-            .replace(/\s+/g, ' ') // Xóa khoảng trắng thừa
-            .trim();
-    }
-
-    var cleanedTranscript = cleanText(transcript);
-    var cleanedComparison = cleanText(comparisonLyrics);
-
-    var transcriptWords = cleanedTranscript.split(" ");
-    var comparisonWords = cleanedComparison.split(" ");
-
-    var correctCount = 0;
-    var errors = [];
-
-    // So sánh từng từ với comparisonLyrics
-    for (var i = 0; i < comparisonWords.length; i++) {
-        if (transcriptWords[i] === comparisonWords[i]) {
-            correctCount++;
-        } else {
-            errors.push(comparisonWords[i]); // Lưu từ sai
+    speakButton.addEventListener('click', function () {
+        // Tự động phát video
+        if (video) {
+            video.src += "?autoplay=1"; // Thêm tham số autoplay
         }
+
+        audio.play(); // Phát âm thanh bài hát
+        
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            textarea.innerHTML = 'Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.';
+            return;
+        }
+
+        var recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+
+        recognition.continuous = false; // Ngăn ngừng giữa chừng
+
+        recognition.start();
+        textarea.innerHTML = 'Đang ghi âm...';
+
+        recognition.onresult = function (e) {
+            var transcript = e.results[0][0].transcript;
+            textarea.innerHTML = transcript;
+            evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay);
+        };
+
+        recognition.onerror = function (e) {
+            textarea.innerHTML = 'Lỗi: ' + e.error;
+        };
+
+        recognition.onend = function() {
+            // Ghi âm đã dừng
+            textarea.innerHTML += '<br>Ghi âm đã dừng.';
+            audio.pause(); // Dừng phát âm thanh nếu ghi âm đã dừng
+            if (video) {
+                video.src = getYoutubeEmbedUrl(<?php echo json_encode($song['video_file']); ?>); // Đặt lại src để dừng video
+            }
+        };
+
+        audio.onended = function() {
+            // Khi âm thanh kết thúc, tự động dừng ghi âm
+            recognition.stop();
+        };
+    });
+
+    function evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay) {
+        // Chuẩn hóa văn bản: bỏ dấu câu, viết thường, loại bỏ khoảng trắng thừa
+        function cleanText(text) {
+            return text.toLowerCase()
+                .replace(/[.,!?;:()]/g, '') // Loại bỏ dấu câu
+                .replace(/\s+/g, ' ') // Xóa khoảng trắng thừa
+                .trim();
+        }
+
+        var cleanedTranscript = cleanText(transcript);
+        var cleanedComparison = cleanText(comparisonLyrics);
+
+        var transcriptWords = cleanedTranscript.split(" ");
+        var comparisonWords = cleanedComparison.split(" ");
+
+        var correctCount = 0;
+        var errors = [];
+
+        // So sánh từng từ với comparisonLyrics
+        for (var i = 0; i < comparisonWords.length; i++) {
+            if (transcriptWords[i] === comparisonWords[i]) {
+                correctCount++;
+            } else {
+                errors.push(comparisonWords[i]); // Lưu từ sai
+            }
+        }
+
+        // Tính điểm chính xác hơn: số từ đúng / tổng số từ * 100
+        var score = Math.round((correctCount / comparisonWords.length) * 100);
+        if (correctCount === comparisonWords.length) {
+            score = 100; // Nếu đúng toàn bộ, luôn cho điểm 100%
+            errors = [];
+        }
+
+        // Hiển thị điểm số lên giao diện
+        scoreDisplay.innerHTML = `
+            <strong>⭐ Điểm của bạn: ${score}%</strong><br>
+            ${errors.length > 0 ? `❌ Sai từ: ${errors.map(err => `<span class="error">${err}</span>`).join(', ')}` : "✅ Không có lỗi!"}
+        `;
     }
-
-    // Tính điểm chính xác hơn: số từ đúng / tổng số từ * 100
-    var score = Math.round((correctCount / comparisonWords.length) * 100);
-    if (correctCount === comparisonWords.length) {
-        score = 100; // Nếu đúng toàn bộ, luôn cho điểm 100%
-        errors = [];
-    }
-
-    // Hiển thị điểm số lên giao diện
-    scoreDisplay.innerHTML = `
-        <strong>⭐ Điểm của bạn: ${score}%</strong><br>
-        ${errors.length > 0 ? `❌ Sai từ: ${errors.map(err => `<span class="error">${err}</span>`).join(', ')}` : "✅ Không có lỗi!"}
-    `;
-}
-
-        });
+});
     </script>
-
 </body>
 </html>
 
