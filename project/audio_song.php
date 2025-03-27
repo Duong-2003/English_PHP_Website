@@ -96,7 +96,7 @@ function getYoutubeEmbedUrl($url) {
 }
 ?>
 
-<>
+
     <div class="container">
         <h1><?php echo htmlspecialchars($song['title']); ?></h1>
         <div class="row">
@@ -124,7 +124,7 @@ function getYoutubeEmbedUrl($url) {
     </div>
 
     <script>
-       document.addEventListener('DOMContentLoaded', function () {
+     document.addEventListener('DOMContentLoaded', function () {
     var speakButton = document.querySelector('.speak');
     var songLyrics = speakButton.getAttribute('data-lyrics').toLowerCase();
     var comparisonLyrics = speakButton.getAttribute('data-comparison').toLowerCase();
@@ -133,32 +133,36 @@ function getYoutubeEmbedUrl($url) {
     var audio = document.querySelector('audio');
     var video = document.querySelector('iframe');
 
-    speakButton.addEventListener('click', function () {
-        // Tự động phát video
-        if (video) {
-            video.src += "?autoplay=1"; // Thêm tham số autoplay
-        }
+    var isRecognizing = false; // Kiểm tra trạng thái nhận diện
+    var recognition;
+    var totalDuration; // Thời gian tổng của video
 
-        audio.play(); // Phát âm thanh bài hát
-        
+    function getVideoDuration() {
+        totalDuration = video ? video.duration : 0;
+    }
+
+    function startRecognition() {
+        if (isRecognizing) return; // Bỏ qua nếu đang nhận diện
+        isRecognizing = true;
+
         var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
             textarea.innerHTML = 'Trình duyệt của bạn không hỗ trợ nhận diện giọng nói.';
             return;
         }
 
-        var recognition = new SpeechRecognition();
+        recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
-
-        recognition.continuous = false; // Ngăn ngừng giữa chừng
-
-        recognition.start();
-        textarea.innerHTML = 'Đang ghi âm...';
+        recognition.continuous = true; // Cho phép ghi âm liên tục
+        recognition.interimResults = true; // Cho phép hiển thị kết quả giữa chừng
 
         recognition.onresult = function (e) {
-            var transcript = e.results[0][0].transcript;
-            textarea.innerHTML = transcript;
-            evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay);
+            var transcript = '';
+            for (var i = e.resultIndex; i < e.results.length; i++) {
+                transcript += e.results[i][0].transcript + ' ';
+            }
+            textarea.innerHTML = transcript; // Cập nhật hiển thị
+            evaluatePerformance(transcript.trim(), songLyrics, comparisonLyrics, scoreDisplay);
         };
 
         recognition.onerror = function (e) {
@@ -166,20 +170,32 @@ function getYoutubeEmbedUrl($url) {
         };
 
         recognition.onend = function() {
-            // Ghi âm đã dừng
-            textarea.innerHTML += '<br>Ghi âm đã dừng.';
-            audio.pause(); // Dừng phát âm thanh nếu ghi âm đã dừng
-            if (video) {
-                video.src = getYoutubeEmbedUrl(<?php echo json_encode($song['video_file']); ?>); // Đặt lại src để dừng video
+            isRecognizing = false; // Đánh dấu rằng đã ngừng nhận diện
+        };
+
+        recognition.start();
+        textarea.innerHTML = 'Đang ghi âm...';
+    }
+
+    speakButton.addEventListener('click', function () {
+        // Tự động phát video và lấy thời gian tổng
+        if (video) {
+            video.src += "?autoplay=1"; // Thêm tham số autoplay
+            video.addEventListener('loadedmetadata', getVideoDuration); // Lấy thời gian bài hát
+        }
+
+        audio.play(); // Phát âm thanh bài hát
+        startRecognition(); // Bắt đầu ghi âm
+
+        // Thiết lập đồng hồ để theo dõi thời gian video
+        var checkVideoStatus = setInterval(function() {
+            if (video && video.currentTime >= totalDuration) {
+                recognition.stop(); // Dừng ghi âm khi video kết thúc
+                clearInterval(checkVideoStatus);
+                textarea.innerHTML += '<br>Video đã kết thúc.';
             }
-        };
-
-        audio.onended = function() {
-            // Khi âm thanh kết thúc, tự động dừng ghi âm
-            recognition.stop();
-        };
+        }, 1000); // Kiểm tra mỗi giây
     });
-
     function evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay) {
         // Chuẩn hóa văn bản: bỏ dấu câu, viết thường, loại bỏ khoảng trắng thừa
         function cleanText(text) {
