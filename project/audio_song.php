@@ -25,7 +25,7 @@
         #textarea {
             margin-top: 20px;
             font-size: 20px;
-            min-height: 150px; /* Tăng chiều cao của textarea */
+            min-height: 150px;
             padding: 10px;
             background-color: #e9ecef;
             border-radius: 5px;
@@ -42,6 +42,7 @@
             border: 1px solid #ced4da;
             border-radius: 5px;
             padding: 15px;
+            display: none;
         }
         audio {
             margin: 20px 0;
@@ -55,13 +56,13 @@
             padding: 10px;
             margin-top: 20px;
             width: 500px;
-            height: 200px; /* Tăng chiều cao của output */
+            height: 200px;
             overflow-y: auto;
             margin-left: auto;
             margin-right: auto;
             background: #f9f9f9;
         }
-        .btn-start, .btn-stop {
+        .btn-start, .btn-stop, #toggleLyrics {
             padding: 10px 20px;
             margin: 5px;
             cursor: pointer;
@@ -74,6 +75,9 @@
         }
         .btn-stop {
             background-color: #dc3545;
+        }
+        #toggleLyrics{
+            background-color: #007bff;
         }
     </style>
 </head>
@@ -117,7 +121,7 @@
                     Your browser does not support the audio tag.
                 </audio>
                 <?php if (!empty($song['video_file'])): ?>
-                    <iframe width="100%" height="281" src="<?php echo getYoutubeEmbedUrl($song['video_file']); ?>" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="100%" height="400" src="<?php echo getYoutubeEmbedUrl($song['video_file']); ?>" frameborder="0" allowfullscreen></iframe>
                 <?php else: ?>
                     <p>Không có video</p>
                 <?php endif; ?>
@@ -127,6 +131,7 @@
                     <h3>Lời bài hát:</h3>
                     <p id="lyrics-text"><?php echo nl2br(htmlspecialchars($song['lyrics'])); ?></p>
                 </div>
+                <button id="toggleLyrics">Hiện/Ẩn Lời Bài Hát</button>
                 <button class="speak btn-start" data-lyrics="<?php echo addslashes($songLyrics); ?>" data-comparison="<?php echo addslashes($comparisonLyrics); ?>">Bắt đầu hát</button>
                 <button class="btn-stop">Dừng</button>
                 <p class="output" id="textarea" cols="30" rows="10" readonly>Kết quả sẽ hiển thị ở đây...</p>
@@ -144,12 +149,13 @@
             var scoreDisplay = document.getElementById('score');
             var audio = document.querySelector('audio');
             var video = document.querySelector('iframe');
+            var lyricsElement = document.getElementById('lyrics');
+            var toggleLyricsButton = document.getElementById('toggleLyrics');
 
             var speech = new SpeechRecognitionApi({
                 output: textarea,
             });
 
-            var recordedTranscript = '';
             var isRecording = false;
 
             speakButton.addEventListener('click', function () {
@@ -159,15 +165,19 @@
                 audio.play();
                 speech.init();
                 isRecording = true;
-                textarea.innerHTML = 'Đang ghi âm...\n'; // Sử dụng \n để xuống dòng
+                textarea.innerHTML = 'Đang ghi âm...';
             });
 
             stopButton.addEventListener('click', function () {
                 if (isRecording) {
                     speech.stop();
                     isRecording = false;
-                    evaluatePerformance(textarea.textContent.trim(), songLyrics, comparisonLyrics, scoreDisplay);
+                    evaluatePerformance(textarea.textContent.replace('Đang ghi âm...', '').trim(), songLyrics, comparisonLyrics, scoreDisplay);
                 }
+            });
+
+            toggleLyricsButton.addEventListener('click', function() {
+                lyricsElement.style.display = lyricsElement.style.display === 'none' ? 'block' : 'none';
             });
 
             function evaluatePerformance(transcript, songLyrics, comparisonLyrics, scoreDisplay) {
@@ -183,36 +193,37 @@
 
                 var correctCount = 0;
                 var errors = [];
-                var comparisonIndex = 0;
                 var usedComparisonIndices = [];
+                var highlightedTranscript = "";
 
                 for (var i = 0; i < transcriptWords.length; i++) {
                     var foundMatch = false;
-                    for (var j = comparisonIndex; j < comparisonWords.length; j++) {
+                    for (var j = 0; j < comparisonWords.length; j++) {
                         if (transcriptWords[i] === comparisonWords[j] && !usedComparisonIndices.includes(j)) {
                             correctCount++;
-                            comparisonIndex = j + 1;
                             usedComparisonIndices.push(j);
                             foundMatch = true;
+                            highlightedTranscript += transcriptWords[i] + " ";
                             break;
                         }
                     }
-                    if (!foundMatch && comparisonIndex < comparisonWords.length) {
-                        errors.push(comparisonWords[comparisonIndex]);
-                        comparisonIndex++;
+                    if (!foundMatch) {
+                        errors.push(transcriptWords[i]);
+                        highlightedTranscript += `<span class="error">${transcriptWords[i]}</span> `;
                     }
                 }
 
                 var score = Math.round((correctCount / comparisonWords.length) * 100);
-                if (correctCount === comparisonWords.length) {
-                    score = 100;
-                    errors = [];
+                if (comparisonWords.length === 0) {
+                    score = 0;
                 }
 
                 scoreDisplay.innerHTML = `
                     <strong>⭐ Điểm của bạn: ${score}%</strong><br>
                     ${errors.length > 0 ? `❌ Sai từ: ${errors.filter((val, index, self) => self.indexOf(val) === index).map(err => `<span class="error">${err}</span>`).join(', ')}` : "✅ Không có lỗi!"}
                 `;
+
+                textarea.innerHTML = highlightedTranscript.trim();
             }
         });
 
@@ -228,7 +239,7 @@
                     var resultIndex = event.resultIndex;
                     var transcript = event.results[resultIndex][0].transcript;
                     if (event.results[resultIndex].isFinal) {
-                        this.output.textContent += transcript + ". ";
+                        this.output.textContent += transcript + ".\n";
                     }
                 };
             }
